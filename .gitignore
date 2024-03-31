@@ -1,0 +1,8 @@
+poker.iml
+out/
+build/
+.idea/
+.gradle/
+
+*.zip
+
