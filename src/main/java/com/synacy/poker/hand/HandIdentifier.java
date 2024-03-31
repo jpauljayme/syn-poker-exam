@@ -2,6 +2,7 @@ package com.synacy.poker.hand;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.card.CardRank;
+import com.synacy.poker.hand.types.FullHouse;
 import com.synacy.poker.hand.types.OnePair;
 import com.synacy.poker.hand.types.ThreeOfAKind;
 import com.synacy.poker.hand.types.TwoPair;
@@ -28,7 +29,7 @@ public class HandIdentifier {
     public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) {
 
         //TODO: Implement
-        if(!playerCards.isEmpty() && !communityCards.isEmpty()){
+        if (!playerCards.isEmpty() && !communityCards.isEmpty()) {
             List<Card> sortedList = new ArrayList<>(communityCards);
             CardRankOrderUtil
                     .sortCardsDescending(sortedList);
@@ -46,57 +47,67 @@ public class HandIdentifier {
             }
 
             List<CardRank> pairs = countFrequencyOfPairs(rankCounts);
+            Optional<CardRank> threeOfAKind = countFrequencyThreeOfAKind(rankCounts);
+            /**
+             * Full House!
+             */
+            if (pairs.size() == 1 && threeOfAKind.isPresent()) {
 
-            //We found pair/pairs
-            if(!pairs.isEmpty()){
+                List<Card> threes = allCards.stream().
+                        filter(card -> card.getRank().equals(threeOfAKind.get()))
+                        .collect(Collectors.toList());
 
+                List<Card> pair = allCards.stream().
+                        filter(card -> card.getRank() == pairs.get(0))
+                        .collect(Collectors.toList());
+
+                return new FullHouse(threes, pair );
+
+            } else if (threeOfAKind.isPresent()) {
+                List<Card> threes = allCards.stream().
+                        filter(card -> card.getRank().equals(threeOfAKind.get()))
+                        .collect(Collectors.toList());
+
+                List<Card> otherCards = Arrays.asList(view.get(0), view.get(1));
+
+                return new ThreeOfAKind(threes, otherCards);
+            }else if(!pairs.isEmpty()){
                 //ONE PAIR
-              if(pairs.size() == 1){
-                  List<Card> kickers = Arrays.asList(view.get(0),
-                          view.get(1),
-                          view.get(2));
+                if(pairs.size() == 1){
+                    List<Card> kickers = Arrays.asList(view.get(0),
+                            view.get(1),
+                            view.get(2));
 
-                  return new OnePair(playerCards,kickers);
-              }else {
+                    return new OnePair(playerCards,kickers);
+                }else {
 
-                  List<Card> firstPair = allCards.stream().
-                          filter(card -> card.getRank() == pairs.get(0))
-                          .collect(Collectors.toList());
-                  List<Card> secondPair = allCards.stream().
-                          filter(card -> card.getRank() == pairs.get(1))
-                          .collect(Collectors.toList());
-                  return new TwoPair(firstPair,
-                          secondPair,
-                          view.get(0));
-              }
-            }else{
-                Optional<CardRank> threeOfAKind = countFrequencyThreeOfAKind(rankCounts);
-
-                if(threeOfAKind.isPresent()){
-                    List<Card> threes = allCards.stream().
-                            filter(card -> card.getRank().equals(threeOfAKind.get()))
+                    List<Card> firstPair = allCards.stream().
+                            filter(card -> card.getRank() == pairs.get(0))
                             .collect(Collectors.toList());
-
-                    List<Card> otherCards = Arrays.asList(view.get(0), view.get(1));
-
-                    return new ThreeOfAKind(threes, otherCards);
+                    List<Card> secondPair = allCards.stream().
+                            filter(card -> card.getRank() == pairs.get(1))
+                            .collect(Collectors.toList());
+                    return new TwoPair(firstPair,
+                            secondPair,
+                            view.get(0));
                 }
-            }
         }
+    }
         return null;
-    }
+}
 
-    private List<CardRank> countFrequencyOfPairs(Map<CardRank, Integer> rankCounts){
-        return rankCounts.entrySet().stream()
-                .filter(entry -> entry.getValue() == 2)
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-    private Optional<CardRank> countFrequencyThreeOfAKind(Map<CardRank, Integer> rankCounts){
-        return rankCounts.entrySet().stream()
-                .filter(entry -> entry.getValue() == 3)
-                .map(Map.Entry::getKey)
-                .findFirst();
-    }
+private List<CardRank> countFrequencyOfPairs(Map<CardRank, Integer> rankCounts) {
+    return rankCounts.entrySet().stream()
+            .filter(entry -> entry.getValue() == 2)
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toList());
+}
+
+private Optional<CardRank> countFrequencyThreeOfAKind(Map<CardRank, Integer> rankCounts) {
+    return rankCounts.entrySet().stream()
+            .filter(entry -> entry.getValue() == 3)
+            .map(Map.Entry::getKey)
+            .findFirst();
+}
 
 }
