@@ -3,6 +3,7 @@ package com.synacy.poker.hand;
 import com.synacy.poker.card.Card;
 import com.synacy.poker.card.CardRank;
 import com.synacy.poker.hand.types.OnePair;
+import com.synacy.poker.hand.types.ThreeOfAKind;
 import com.synacy.poker.hand.types.TwoPair;
 import com.synacy.poker.util.CardRankOrderUtil;
 import org.springframework.stereotype.Component;
@@ -37,15 +38,11 @@ public class HandIdentifier {
             List<Card> allCards = new ArrayList<>(playerCards);
             allCards.addAll(communityCards);
 
-            Card playerCardOne = playerCards.get(0);
-            Card playerCardTwo = playerCards.get(1);
-
             Map<CardRank, Integer> rankCounts = new HashMap<>();
             for (Card card : allCards) {
                 CardRank rank = card.getRank();
                 rankCounts.put(rank,
-                        rankCounts.getOrDefault(rank,
-                                0) + 1);
+                        rankCounts.getOrDefault(rank, 0) + 1);
             }
 
             List<CardRank> pairs = countFrequencyOfPairs(rankCounts);
@@ -72,6 +69,18 @@ public class HandIdentifier {
                           secondPair,
                           view.get(0));
               }
+            }else{
+                Optional<CardRank> threeOfAKind = countFrequencyThreeOfAKind(rankCounts);
+
+                if(threeOfAKind.isPresent()){
+                    List<Card> threes = allCards.stream().
+                            filter(card -> card.getRank().equals(threeOfAKind.get()))
+                            .collect(Collectors.toList());
+
+                    List<Card> otherCards = Arrays.asList(view.get(0), view.get(1));
+
+                    return new ThreeOfAKind(threes, otherCards);
+                }
             }
         }
         return null;
@@ -83,11 +92,11 @@ public class HandIdentifier {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
-    private List<CardRank> countFrequencyThreeOfAKind(Map<CardRank, Integer> rankCounts){
+    private Optional<CardRank> countFrequencyThreeOfAKind(Map<CardRank, Integer> rankCounts){
         return rankCounts.entrySet().stream()
                 .filter(entry -> entry.getValue() == 3)
                 .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+                .findFirst();
     }
 
 }
