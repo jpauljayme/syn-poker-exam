@@ -27,7 +27,7 @@ public class TwoPairTest {
                 new Card(CardRank.ACE, CardSuit.CLUBS)
         );
 
-        TwoPair twoPair = new TwoPair(firstPair, secondPair, kicker);
+        TwoPair twoPair = new TwoPair(firstPair, secondPair, new Card(CardRank.ACE, CardSuit.CLUBS));
 
         assertEquals("Two Pair (4,3) - A High", twoPair.toString());
     }

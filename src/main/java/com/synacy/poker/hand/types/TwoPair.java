@@ -13,12 +13,12 @@ public class TwoPair extends Hand {
 
     private final List<Card> firstPairCards;
     private final List<Card> secondPairCards;
-    private final List<Card> otherCards;
+    private final Card otherCard;
 
-    public TwoPair(List<Card> firstPairCards, List<Card> secondPairCards, List<Card> otherCards) {
+    public TwoPair(List<Card> firstPairCards, List<Card> secondPairCards, Card otherCard) {
         this.firstPairCards = firstPairCards;
         this.secondPairCards = secondPairCards;
-        this.otherCards = otherCards;
+        this.otherCard = otherCard;
     }
 
     public HandType getHandType() {
@@ -35,7 +35,7 @@ public class TwoPair extends Hand {
         return String.format("Two Pair (%s,%s) - %s High",
                 firstPairCards.get(0).getRank(),
                 secondPairCards.get(0).getRank(),
-                otherCards.get(0).getRank());
+                otherCard.getRank());
     }
 
 }
