@@ -68,25 +68,17 @@ public class HandIdentifier {
 
             Optional<CardRank> threeOfAKind = countFrequencyThreeOfAKind(rankCounts);
 
-            boolean isAcePresent = view
-                    .stream()
-                    .anyMatch(card ->
-                            card.getRank() == CardRank.ACE);
+            List<Card> straightRange = hasStraight(allCards);
 
-            List<Integer> straightRange = hasStraight(rankNumberCounts);
 
-            List<Card> collect = allCards.stream().filter(card ->
-                    card.getRank().getNumber() >= straightRange.get(0)
-                            &&
-                            card.getRank().getNumber() <= straightRange.get(1))
-                    .collect(Collectors.toList());
-            /**
-             * Full House!
-             */
+             //Straight Hand
             if(!straightRange.isEmpty()){
 
-//                return new Straight();
+                return new Straight(straightRange);
+
             } else if (pairs.size() == 1 && threeOfAKind.isPresent()) {
+
+                //Full House Hand
 
                 List<Card> threes = allCards.stream().
                         filter(card -> card.getRank().equals(threeOfAKind.get()))
@@ -145,21 +137,67 @@ public class HandIdentifier {
                 .findFirst();
     }
 
-    private List<Integer> hasStraight(Map<Integer, Integer> rankCounts) {
+    private List<Card> hasStraight(List<Card>  cards){
+        HashMap<Integer, Card> cardMap = new HashMap<>();
+        for(Card c : cards){
+            int rankNumber = c.getRank().getNumber();
+            if(!cardMap.containsKey(rankNumber)){
+                cardMap.put(rankNumber, c);
+            }
+        }
+
         List<Integer> straightNumbers = new ArrayList<>(5);
-        for (int i = 2; i <= 14; i++) {  // Loop from 2 (lowest rank) to Ace (high rank)
+        int lastRank = 0;
+        boolean isAceLow = false;
+        for (int start = 2; start <= 14; start ++) {  // Loop from 2 (lowest rank) to Ace (high rank)
             boolean isStraight = true;
-            int lastRank = i;
-            while (lastRank < i + 5) {  // Check for consecutive ranks in a sequence of 5
-                Integer count = rankCounts.getOrDefault(lastRank, 0);
-                if (rankCounts.getOrDefault(lastRank, 0) == 0) {
+
+            for (int end = start; end < start + 5; end++) {  // Check for consecutive ranks in a sequence of 5
+                Card endCard = cardMap.getOrDefault(end, null);
+                if (endCard == null) {
                     isStraight = false;
                     break;
+                }else{
+
+                    lastRank = end;
+                    if(start == 2 && end == 5
+                            && cardMap.containsKey(CardRank.ACE.getNumber())){
+                        isAceLow = true;
+                        break;
+                    }
                 }
-                lastRank++;
+
+
             }
             if (isStraight) {
-                return Arrays.asList(i, lastRank);
+                final int finalStart = start;
+                int finalLastRank = lastRank;
+                if(start + 4 == 14){
+
+                    List<Card> collect = cardMap.entrySet()
+                            .stream()
+                            .filter(entry -> entry.getKey() >= finalStart && entry.getKey() <= finalLastRank)
+                            .map(Map.Entry::getValue)
+                            .collect(Collectors.toList());
+
+                    return collect;
+                }else if(isAceLow){
+                    List<Card> orig = cardMap.entrySet()
+                            .stream()
+                            .filter(entryCard -> entryCard.getKey() == CardRank.ACE.getNumber() || (entryCard.getKey() >= finalStart && entryCard.getKey() <= finalLastRank))
+                            .map(Map.Entry::getValue)
+                            .collect(Collectors.toList());
+                    //Swap
+                    List<Card> straightAceLow = new ArrayList<>();
+                    int aceIndex = 4;
+                    straightAceLow.add(0, orig.get(aceIndex) );
+                    straightAceLow.addAll(orig.subList(0, aceIndex));
+                    Collections.reverse(straightAceLow);
+                    return straightAceLow;
+                }
+
+
+
             }
         }
         return Collections.emptyList();
