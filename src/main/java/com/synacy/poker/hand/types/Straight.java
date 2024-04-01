@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class Straight extends Hand {
 
-    private List<Card> cards;
+    private final List<Card> cards;
 
     public Straight(List<Card> cards) {
         this.cards = cards;
