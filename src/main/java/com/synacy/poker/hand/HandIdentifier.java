@@ -60,7 +60,12 @@ public class HandIdentifier {
 
             List<Card> flushHand = hasFlush(allCards);
 
-            if(!flushHand.isEmpty()){
+            ArrayList<List<Card>> fourOfAKindHand = hasFourOfAKindHand(allCards);
+            if(!fourOfAKindHand.isEmpty()){
+                //Four Of A Kind
+                return new FourOfAKind(fourOfAKindHand.get(0),
+                        fourOfAKindHand.get(1));
+            }else if(!flushHand.isEmpty()){
                 //Flush Hand : Five cards of the same suit
                 return new Flush(flushHand);
             }else if(!straightRange.isEmpty()){
@@ -140,6 +145,44 @@ public class HandIdentifier {
         }
 
         return Collections.emptyList();
+    }
+
+    private ArrayList<List<Card>> hasFourOfAKindHand(List<Card> allCards) {
+        HashMap<Integer, Integer> cardRankFrequencyMap = new HashMap<>();
+        for(Card c : allCards){
+            int rank = c.getRank().getNumber();
+            cardRankFrequencyMap.put(rank,
+                    cardRankFrequencyMap.getOrDefault(rank, 0) + 1);
+        }
+        Optional<Integer> hasFreqRank = cardRankFrequencyMap.entrySet()
+                .stream()
+                .filter(cardRankIntegerEntry -> cardRankIntegerEntry.getValue() == 4)
+                .map(Map.Entry::getKey)
+                .findFirst();
+
+        if(hasFreqRank.isPresent()){
+            int mostFrequentRank = hasFreqRank.get();
+            List<Card> fourOfAKindCards = allCards.stream()
+                    .filter(card -> card.getRank().getNumber()  == mostFrequentRank)
+                    .collect(Collectors.toList());
+            List<Card> kicker = new ArrayList<>(1);
+            Optional<Card> kickerCard = allCards.stream()
+                    .filter(card -> card.getRank().getNumber() != mostFrequentRank)
+                    .max(Comparator.reverseOrder());
+            if(kickerCard.isPresent()){
+                kicker.add(kickerCard.get());
+                ArrayList<List<Card>> ret = new ArrayList<>();
+                ret.add(fourOfAKindCards);
+                ret.add(kicker);
+                return ret;
+            }else{
+                //throw error
+                return new ArrayList<>(Collections.emptyList());
+            }
+
+        }else{
+            return new ArrayList<>(Collections.emptyList());
+        }
     }
 
     private List<CardRank> countFrequencyOfPairs(Map<CardRank, Integer> rankCounts) {
