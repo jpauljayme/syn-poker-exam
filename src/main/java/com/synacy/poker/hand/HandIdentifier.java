@@ -2,6 +2,7 @@ package com.synacy.poker.hand;
 
 import com.synacy.poker.card.Card;
 import com.synacy.poker.card.CardRank;
+import com.synacy.poker.card.CardSuit;
 import com.synacy.poker.hand.types.*;
 import com.synacy.poker.util.CardRankOrderUtil;
 import org.springframework.stereotype.Component;
@@ -30,24 +31,11 @@ public class HandIdentifier {
             List<Card> sortedList = new ArrayList<>(communityCards);
             CardRankOrderUtil
                     .sortCardsDescending(sortedList);
-            List<Card> view = Collections.unmodifiableList(sortedList);
+            List<Card> sortedDescCommCards = Collections.unmodifiableList(sortedList);
 
             //Put all cards into one stack
             List<Card> allCards = new ArrayList<>(playerCards);
-            allCards.addAll(communityCards);
-//            List<Card> sortedAllCards = new ArrayList<>(communityCards);
-//            CardRankOrderUtil
-//                    .sortCardsDescending(sortedAllCards);
-//            List<Card> viewAllCards= Collections.unmodifiableList(sortedAllCards);
-//
-//
-//            Map<CardRank, Integer> sortedRankCounts = new HashMap<>();
-//            for (Card card : sortedAllCards) {
-//                CardRank rank = card.getRank();
-//                sortedRankCounts.put(rank,
-//                        sortedRankCounts.getOrDefault(rank, 0) + 1);
-//            }
-
+            allCards.addAll(sortedDescCommCards);
 
             Map<CardRank, Integer> rankCounts = new HashMap<>();
             for (Card card : allCards) {
@@ -70,10 +58,13 @@ public class HandIdentifier {
 
             List<Card> straightRange = hasStraight(allCards);
 
+            List<Card> flushHand = hasFlush(allCards);
 
-             //Straight Hand
-            if(!straightRange.isEmpty()){
-
+            if(!flushHand.isEmpty()){
+                //Flush Hand : Five cards of the same suit
+                return new Flush(flushHand);
+            }else if(!straightRange.isEmpty()){
+                //Straight Hand
                 return new Straight(straightRange);
 
             } else if (pairs.size() == 1 && threeOfAKind.isPresent()) {
@@ -95,15 +86,15 @@ public class HandIdentifier {
                         filter(card -> card.getRank().equals(threeOfAKind.get()))
                         .collect(Collectors.toList());
 
-                List<Card> otherCards = Arrays.asList(view.get(0), view.get(1));
+                List<Card> otherCards = Arrays.asList(sortedDescCommCards.get(0), sortedDescCommCards.get(1));
 
                 return new ThreeOfAKind(threes, otherCards);
             } else if (!pairs.isEmpty()) {
                 //ONE PAIR
                 if (pairs.size() == 1) {
-                    List<Card> kickers = Arrays.asList(view.get(0),
-                            view.get(1),
-                            view.get(2));
+                    List<Card> kickers = Arrays.asList(sortedDescCommCards.get(0),
+                            sortedDescCommCards.get(1),
+                            sortedDescCommCards.get(2));
 
                     return new OnePair(playerCards, kickers);
                 } else {
@@ -116,11 +107,39 @@ public class HandIdentifier {
                             .collect(Collectors.toList());
                     return new TwoPair(firstPair,
                             secondPair,
-                            view.get(0));
+                            sortedDescCommCards.get(0));
                 }
             }
         }
         return null;
+    }
+
+
+    private List<Card> hasFlush(List<Card> cards) {
+        HashMap<CardSuit, Integer> cardSuitMap = new HashMap<>();
+        for(Card c : cards){
+            CardSuit suit = c.getSuit();
+            cardSuitMap.put(suit,
+
+                    cardSuitMap.getOrDefault(suit, 0) + 1);
+        }
+
+        Optional<CardSuit> hasFlushSuit = cardSuitMap.entrySet()
+                .stream()
+                .filter(cardSuitEntry -> cardSuitEntry.getValue() >= 5)
+                .map(Map.Entry::getKey)
+                .findFirst();
+
+        if(hasFlushSuit.isPresent()){
+            CardSuit flushSuit = hasFlushSuit.get();
+            return cards.stream()
+                    .filter( card -> card.getSuit().compareTo(flushSuit) == 0)
+                    .limit(5)
+                    .sorted()
+                    .collect(Collectors.toList());
+        }
+
+        return Collections.emptyList();
     }
 
     private List<CardRank> countFrequencyOfPairs(Map<CardRank, Integer> rankCounts) {
@@ -146,7 +165,6 @@ public class HandIdentifier {
             }
         }
 
-        List<Integer> straightNumbers = new ArrayList<>(5);
         int lastRank = 0;
         boolean isAceLow = false;
         for (int start = 2; start <= 14; start ++) {  // Loop from 2 (lowest rank) to Ace (high rank)
@@ -166,21 +184,17 @@ public class HandIdentifier {
                         break;
                     }
                 }
-
-
             }
             if (isStraight) {
                 final int finalStart = start;
                 int finalLastRank = lastRank;
                 if(start + 4 == 14){
 
-                    List<Card> collect = cardMap.entrySet()
+                    return cardMap.entrySet()
                             .stream()
                             .filter(entry -> entry.getKey() >= finalStart && entry.getKey() <= finalLastRank)
                             .map(Map.Entry::getValue)
                             .collect(Collectors.toList());
-
-                    return collect;
                 }else if(isAceLow){
                     List<Card> orig = cardMap.entrySet()
                             .stream()
@@ -195,9 +209,6 @@ public class HandIdentifier {
                     Collections.reverse(straightAceLow);
                     return straightAceLow;
                 }
-
-
-
             }
         }
         return Collections.emptyList();
