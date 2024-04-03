@@ -61,6 +61,9 @@ public class HandIdentifier {
             List<Card> flushHand = hasFlush(allCards);
 
             ArrayList<List<Card>> fourOfAKindHand = hasFourOfAKindHand(allCards);
+
+            List<Card> hasStraightFlush = hasStraightFlush(allCards);
+
             if(!fourOfAKindHand.isEmpty()){
                 //Four Of A Kind
                 return new FourOfAKind(fourOfAKindHand.get(0),
@@ -117,6 +120,70 @@ public class HandIdentifier {
             }
         }
         return null;
+    }
+
+    private List<Card> hasStraightFlush(List<Card> allCards) {
+        int[] rankArr = new int[allCards.size()];
+        int[] array = allCards.stream()
+                .sorted(Comparator.comparing(Card::getRank).reversed())
+                .mapToInt(card -> card.getRank().getNumber())
+                .toArray();
+
+
+        List<Card> maxStraightFlushHand = new ArrayList<>();
+        HashMap<Integer, Card> cardRankFrequencyMap = new HashMap<>();
+        for(Card c : allCards){
+            int rank = c.getRank().getNumber();
+            cardRankFrequencyMap.put(rank, c);
+        }
+
+        int lastRank = 0;
+        boolean isAceLow = false;
+        for (int start = 2; start <= 14; start ++) {  // Loop from 2 (lowest rank) to Ace (high rank)
+            boolean isStraight = true;
+
+            for (int end = start; end < start + 5; end++) {  // Check for consecutive ranks in a sequence of 5
+                Card endCard = cardRankFrequencyMap.getOrDefault(end, null);
+                if (endCard == null) {
+                    isStraight = false;
+                    break;
+                } else {
+
+                    lastRank = end;
+                    if (start == 2 && end == 5
+                            && cardRankFrequencyMap.containsKey(CardRank.ACE.getNumber())) {
+                        isAceLow = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isStraight) {
+                final int finalStart = start;
+                int finalLastRank = lastRank;
+
+                //Store until a higher hand can be collected from player card + community
+                maxStraightFlushHand = cardRankFrequencyMap.entrySet()
+                        .stream()
+                        .filter(entry -> entry.getKey() >= finalStart && entry.getKey() <= finalLastRank)
+                        .map(Map.Entry::getValue)
+                        .collect(Collectors.toList());
+
+                if(start + 4 == 14){
+                    //The highest possible hand ( 10 JACK QUEEN KING ACE )
+                    return maxStraightFlushHand;
+                }
+            }
+        }
+//        int entryRank = cardRankIntegerEntry.getKey();
+//        if(entryRank == ACE.getNumber() || entryRank == KING.getNumber()
+//                || entryRank == QUEEN.getNumber() || entryRank == JACK.getNumber()
+//                || entryRank == TEN.getNumber()){
+//            return true;
+//        }else {
+//            return false;
+//        }
+        return Collections.emptyList();
     }
 
 
