@@ -28,21 +28,8 @@ public class StraightFlush extends Straight {
      */
     @Override
     public String toString() {
-        boolean isRoyalFlush = true;
-        for (Card card : getCards()) {
-            CardRank rank = card.getRank();
-            if (!(rank == KING ||
-                    rank == TEN ||
-                    rank == JACK
-                    || rank == QUEEN
-                    || rank == ACE)
-            ) {
-                isRoyalFlush = false;
-                break;
-            }
-        }
-
-        return isRoyalFlush ? "Royal Flush"
+        return getCards().get(0).getRank().compareTo(ACE) == 0
+                ? "Royal Flush"
                 :  String.format("Straight Flush (%s High)",
                 getCards().get(0).getRank());
     }
