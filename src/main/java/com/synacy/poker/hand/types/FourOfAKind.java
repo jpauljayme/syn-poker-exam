@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Four_of_a_kind">What is a Four of a Kind?</a>
@@ -33,4 +34,16 @@ public class FourOfAKind extends Hand {
                 otherCards.get(0).getRank());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FourOfAKind that = (FourOfAKind) o;
+        return Objects.equals(fourOfAKindCards, that.fourOfAKindCards) && Objects.equals(otherCards, that.otherCards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fourOfAKindCards, otherCards);
+    }
 }

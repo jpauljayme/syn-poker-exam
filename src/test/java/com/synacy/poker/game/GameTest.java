@@ -4,19 +4,22 @@ import com.synacy.poker.deck.DeckBuilder;
 import com.synacy.poker.hand.HandIdentifier;
 import com.synacy.poker.hand.WinningHandCalculator;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
 public class GameTest {
 
+    @Autowired
+    GameService gameService;
     @Test
     public void afterConstructorInit_eachPlayerHasTwoCards() {
         DeckBuilder deckBuilder = new DeckBuilder();
         HandIdentifier handIdentifier = mock(HandIdentifier.class);
         WinningHandCalculator winningHandCalculator = mock(WinningHandCalculator.class);
 
-        Game game = new Game(deckBuilder, handIdentifier, winningHandCalculator);
+        GameService game = new GameService(deckBuilder, handIdentifier, winningHandCalculator);
 
         assertPlayersHaveTwoCardsEach(game);
     }
@@ -27,12 +30,12 @@ public class GameTest {
         HandIdentifier handIdentifier = mock(HandIdentifier.class);
         WinningHandCalculator winningHandCalculator = mock(WinningHandCalculator.class);
 
-        Game game = new Game(deckBuilder, handIdentifier, winningHandCalculator);
+        GameService game = new GameService(deckBuilder, handIdentifier, winningHandCalculator);
 
         assertPlayersHaveTwoCardsEach(game);
     }
 
-    private void assertPlayersHaveTwoCardsEach(Game game) {
+    private void assertPlayersHaveTwoCardsEach(GameService game) {
         game.getPlayers().forEach(player ->
                 assertEquals("Players should have 2 cards each",
                         2,
@@ -45,7 +48,7 @@ public class GameTest {
         HandIdentifier handIdentifier = mock(HandIdentifier.class);
         WinningHandCalculator winningHandCalculator = mock(WinningHandCalculator.class);
 
-        Game game = new Game(deckBuilder, handIdentifier, winningHandCalculator);
+        GameService game = new GameService(deckBuilder, handIdentifier, winningHandCalculator);
 
         game.nextAction();
         assertEquals("Deal three community cards at the start", 3, game.getCommunityCards().size());

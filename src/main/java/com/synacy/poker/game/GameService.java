@@ -6,8 +6,10 @@ import com.synacy.poker.deck.DeckBuilder;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandIdentifier;
 import com.synacy.poker.hand.WinningHandCalculator;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,16 +18,16 @@ import java.util.stream.Collectors;
 /**
  * The game engine.
  */
-@Component
-public class Game {
+@Service
+public class GameService {
 
-    private List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
 
-    private List<Card> communityCards = new ArrayList<>();
+    private final List<Card> communityCards = new ArrayList<>();
 
-    private DeckBuilder deckBuilder;
-    private HandIdentifier handIdentifier;
-    private WinningHandCalculator winningHandCalculator;
+    private final DeckBuilder deckBuilder;
+    private final HandIdentifier handIdentifier;
+    private final WinningHandCalculator winningHandCalculator;
 
     private Deck deck;
 
@@ -33,18 +35,23 @@ public class Game {
 
     private static final int MAX_PLAYER_CARDS = 2;
     private static final int MAX_COMMUNITY_CARDS = 5;
+    private boolean isGameInProgress = false;
 
-    public Game(DeckBuilder deckBuilder,
-                HandIdentifier handIdentifier,
-                WinningHandCalculator winningHandCalculator) {
-        players.add(new Player("Alex"));
-        players.add(new Player("Bob"));
-        players.add(new Player("Jane"));
-
+    @Autowired
+    public GameService(DeckBuilder deckBuilder,
+                       HandIdentifier handIdentifier,
+                       WinningHandCalculator winningHandCalculator) {
         this.deckBuilder = deckBuilder;
         this.handIdentifier = handIdentifier;
         this.winningHandCalculator = winningHandCalculator;
-
+//        players.add(new Player("Alex"));
+//        players.add(new Player("Bob"));
+//        players.add(new Player("Jane"));
+//        startNewGame();
+    }
+    @PostConstruct
+    public void init() {
+        // Actions to perform after initialization
         startNewGame();
     }
 
@@ -61,6 +68,12 @@ public class Game {
      * </ul>
      */
     public void startNewGame() {
+        isGameInProgress = true;
+        if(players.isEmpty()){
+            players.add(new Player("Alex"));
+            players.add(new Player("Bob"));
+            players.add(new Player("Jane"));
+        }
         players.forEach(Player::clearHand);
         communityCards.clear();
 
@@ -92,6 +105,7 @@ public class Game {
         }
 
         if (hasEnded()) {
+            System.out.println("Has ended");
             identifyWinningHand();
         }
     }
@@ -102,11 +116,17 @@ public class Game {
      * @see <a href="https://www.youtube.com/watch?v=GAoR9ji8D6A">Poker rules</a>
      */
     public void identifyWinningHand() {
+        System.out.println("In identify winning hand");
         List<Hand> playerHands = players.stream()
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
         Optional<Hand> optionalHand = winningHandCalculator.calculateWinningHand(playerHands);
         winningHand = optionalHand.orElse(null);
+
+//        for(Player player : players){
+//            if(checkIfPlayerWon(player)){
+//            }
+//        }
     }
 
     /**
@@ -116,7 +136,11 @@ public class Game {
      * @return true if the player's hand is equal to the winning hand.
      */
     public boolean checkIfPlayerWon(Player player) {
+        System.out.println("Checkif player won");
         Hand playerHand = identifyPlayerHand(player);
+        System.out.println(playerHand);
+        System.out.println(winningHand);
+        System.out.println(winningHand != null && winningHand.equals(playerHand));
         return winningHand != null && winningHand.equals(playerHand);
     }
 
@@ -178,4 +202,7 @@ public class Game {
         deck.removeFromTop();
     }
 
+    public boolean isGameInProgress() {
+        return isGameInProgress;
+    }
 }

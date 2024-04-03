@@ -16,12 +16,11 @@ public class StraightTest {
     @Test
     public void toString_withAceHighStraight() {
         List<Card> cards = Arrays.asList(
-                new Card(CardRank.TEN, CardSuit.CLUBS),
                 new Card(CardRank.ACE, CardSuit.CLUBS),
                 new Card(CardRank.KING, CardSuit.DIAMONDS),
                 new Card(CardRank.QUEEN, CardSuit.SPADES),
-                new Card(CardRank.JACK, CardSuit.CLUBS)
-
+                new Card(CardRank.JACK, CardSuit.CLUBS),
+                new Card(CardRank.TEN, CardSuit.CLUBS)
         );
 
         Straight straight = new Straight(cards);

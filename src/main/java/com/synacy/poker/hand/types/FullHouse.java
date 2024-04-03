@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Full_house">What is a Full House?</a>
@@ -35,4 +36,16 @@ public class FullHouse extends Hand {
                 pairCards.get(0).getRank());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FullHouse fullHouse = (FullHouse) o;
+        return Objects.equals(threeOfAKindCards, fullHouse.threeOfAKindCards) && Objects.equals(pairCards, fullHouse.pairCards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(threeOfAKindCards, pairCards);
+    }
 }

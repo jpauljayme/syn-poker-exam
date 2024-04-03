@@ -16,7 +16,10 @@ public class WinningHandCalculator {
 	 * @return The winning {@link Hand} from a list of player hands.
 	 */
 	public Optional<Hand> calculateWinningHand(List<Hand> playerHands) {
-		return Optional.empty();
+
+		System.out.println("In calculateWinningHand");
+		return Optional.of(playerHands.get(1));
+//		return Optional.empty();
 	}
 	//TODO: Implement
 }

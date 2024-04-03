@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Straight">What is a Straight?</a>
@@ -34,4 +35,16 @@ public class Straight extends Hand {
                 cards.get(0).getRank());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Straight straight = (Straight) o;
+        return Objects.equals(cards, straight.cards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cards);
+    }
 }
