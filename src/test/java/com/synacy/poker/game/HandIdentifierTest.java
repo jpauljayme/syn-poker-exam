@@ -69,6 +69,27 @@ public class HandIdentifierTest {
 	}
 
 	@Test
+	public void identifyHand_straightFlush_aceLow() {
+		List<Card> playerCards = Arrays.asList(
+				new Card(CardRank.FIVE, CardSuit.SPADES),
+				new Card(CardRank.ACE, CardSuit.SPADES)
+		);
+
+		List<Card> communityCards = Arrays.asList(
+				new Card(CardRank.FOUR, CardSuit.SPADES),
+				new Card(CardRank.NINE, CardSuit.SPADES),
+				new Card(CardRank.THREE, CardSuit.SPADES),
+				new Card(CardRank.TWO, CardSuit.SPADES),
+				new Card(CardRank.ACE, CardSuit.CLUBS)
+		);
+
+		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+
+		assertTrue(identifiedHand instanceof StraightFlush);
+		assertEquals("Straight Flush (5 High)", identifiedHand.toString());
+	}
+
+	@Test
 	public void identifyHand_fourOfAKind() {
 		List<Card> playerCards = Arrays.asList(
 				new Card(CardRank.EIGHT, CardSuit.SPADES),

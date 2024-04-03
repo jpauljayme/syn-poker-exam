@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.synacy.poker.card.CardRank.*;
+
 /**
  * A service that is used to identify the {@link Hand} given the player's cards and the community
  * cards.
@@ -61,21 +63,23 @@ public class HandIdentifier {
             List<Card> flushHand = hasFlush(allCards);
 
             ArrayList<List<Card>> fourOfAKindHand = hasFourOfAKindHand(allCards);
-            if(!fourOfAKindHand.isEmpty()){
+
+            List<Card> hasStraightFlush = hasStraightFlush(allCards);
+
+            if (!hasStraightFlush.isEmpty()) {
+                return new StraightFlush(hasStraightFlush);
+            } else if (!fourOfAKindHand.isEmpty()) {
                 //Four Of A Kind
-                return new FourOfAKind(fourOfAKindHand.get(0),
-                        fourOfAKindHand.get(1));
-            }else if(!flushHand.isEmpty()){
+                return new FourOfAKind(fourOfAKindHand.get(0), fourOfAKindHand.get(1));
+            } else if (!flushHand.isEmpty()) {
                 //Flush Hand : Five cards of the same suit
                 return new Flush(flushHand);
-            }else if(!straightRange.isEmpty()){
+            } else if (!straightRange.isEmpty()) {
                 //Straight Hand
                 return new Straight(straightRange);
-
             } else if (pairs.size() == 1 && threeOfAKind.isPresent()) {
 
                 //Full House Hand
-
                 List<Card> threes = allCards.stream().
                         filter(card -> card.getRank().equals(threeOfAKind.get()))
                         .collect(Collectors.toList());
@@ -110,22 +114,66 @@ public class HandIdentifier {
                     List<Card> secondPair = allCards.stream().
                             filter(card -> card.getRank() == pairs.get(1))
                             .collect(Collectors.toList());
+
                     return new TwoPair(firstPair,
                             secondPair,
                             sortedDescCommCards.get(0));
                 }
+            }else {
+                return new HighCard(allCards
+                        .stream()
+                        .sorted()
+                        .limit(5)
+                        .collect(Collectors.toList()));
+            }
+        }else{
+            //TODO: Throw a runtime exception ?
+            return null;
+        }
+    }
+
+    private List<Card> hasStraightFlush(List<Card> allCards) {
+        HashMap<String, List<Card>> cardFreqSuitMap = new HashMap<>();
+
+        for (Card c : allCards) {
+            String suit = c.getSuit().toString();
+            cardFreqSuitMap.computeIfAbsent(suit, k -> new ArrayList<>()).add(c);
+
+        }
+        for (List<Card> cardsBySuit : cardFreqSuitMap.values()) {
+            if (cardsBySuit.size() >= 5) {
+                Collections.sort(cardsBySuit);
+                for (int i = 0; i <= cardsBySuit.size() - 5; i++) {
+                    if (cardsBySuit.get(i).getRank().getNumber() == cardsBySuit.get(i + 1).getRank().getNumber() + 1
+                            && cardsBySuit.get(i + 1).getRank().getNumber() == cardsBySuit.get(i + 2).getRank().getNumber() + 1
+                            && cardsBySuit.get(i + 2).getRank().getNumber() == cardsBySuit.get(i + 3).getRank().getNumber() + 1
+                            && cardsBySuit.get(i + 3).getRank().getNumber() == cardsBySuit.get(i + 4).getRank().getNumber() + 1) {
+                        return cardsBySuit.subList(0, 5);
+
+                    }
+                }
+                int lastElem = cardsBySuit.size() -1;
+                if(cardsBySuit.get(0).getRank() == ACE
+                    && cardsBySuit.get(lastElem).getRank() == TWO){
+                            //Ace Low
+                    List < Card > aceLowHand = cardsBySuit.stream()
+                                    .filter(card -> card.getRank().getNumber() >= TWO.getNumber()
+                                    && card.getRank().getNumber() <= FIVE.getNumber())
+                                            .collect(Collectors.toList());
+                    aceLowHand.add(cardsBySuit.get(0));
+                return aceLowHand;
+                }
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
 
     private List<Card> hasFlush(List<Card> cards) {
         HashMap<CardSuit, Integer> cardSuitMap = new HashMap<>();
-        for(Card c : cards){
+        for (Card c : cards) {
             CardSuit suit = c.getSuit();
             cardSuitMap.put(suit,
-
                     cardSuitMap.getOrDefault(suit, 0) + 1);
         }
 
@@ -135,10 +183,10 @@ public class HandIdentifier {
                 .map(Map.Entry::getKey)
                 .findFirst();
 
-        if(hasFlushSuit.isPresent()){
+        if (hasFlushSuit.isPresent()) {
             CardSuit flushSuit = hasFlushSuit.get();
             return cards.stream()
-                    .filter( card -> card.getSuit().compareTo(flushSuit) == 0)
+                    .filter(card -> card.getSuit().compareTo(flushSuit) == 0)
                     .limit(5)
                     .sorted()
                     .collect(Collectors.toList());
@@ -149,7 +197,7 @@ public class HandIdentifier {
 
     private ArrayList<List<Card>> hasFourOfAKindHand(List<Card> allCards) {
         HashMap<Integer, Integer> cardRankFrequencyMap = new HashMap<>();
-        for(Card c : allCards){
+        for (Card c : allCards) {
             int rank = c.getRank().getNumber();
             cardRankFrequencyMap.put(rank,
                     cardRankFrequencyMap.getOrDefault(rank, 0) + 1);
@@ -160,27 +208,27 @@ public class HandIdentifier {
                 .map(Map.Entry::getKey)
                 .findFirst();
 
-        if(hasFreqRank.isPresent()){
+        if (hasFreqRank.isPresent()) {
             int mostFrequentRank = hasFreqRank.get();
             List<Card> fourOfAKindCards = allCards.stream()
-                    .filter(card -> card.getRank().getNumber()  == mostFrequentRank)
+                    .filter(card -> card.getRank().getNumber() == mostFrequentRank)
                     .collect(Collectors.toList());
             List<Card> kicker = new ArrayList<>(1);
             Optional<Card> kickerCard = allCards.stream()
                     .filter(card -> card.getRank().getNumber() != mostFrequentRank)
-                    .max(Comparator.reverseOrder());
-            if(kickerCard.isPresent()){
+                    .min(Comparator.naturalOrder());
+            if (kickerCard.isPresent()) {
                 kicker.add(kickerCard.get());
                 ArrayList<List<Card>> ret = new ArrayList<>();
                 ret.add(fourOfAKindCards);
                 ret.add(kicker);
                 return ret;
-            }else{
+            } else {
                 //throw error
                 return new ArrayList<>(Collections.emptyList());
             }
 
-        }else{
+        } else {
             return new ArrayList<>(Collections.emptyList());
         }
     }
@@ -189,6 +237,7 @@ public class HandIdentifier {
         return rankCounts.entrySet().stream()
                 .filter(entry -> entry.getValue() == 2)
                 .map(Map.Entry::getKey)
+                .sorted((Comparator.reverseOrder()))
                 .collect(Collectors.toList());
     }
 
@@ -199,61 +248,48 @@ public class HandIdentifier {
                 .findFirst();
     }
 
-    private List<Card> hasStraight(List<Card>  cards){
-        HashMap<Integer, Card> cardMap = new HashMap<>();
-        for(Card c : cards){
+    private List<Card> hasStraight(List<Card> cards) {
+        HashMap<Integer, Card> cardByRankMap = new HashMap<>();
+        for (Card c : cards) {
             int rankNumber = c.getRank().getNumber();
-            if(!cardMap.containsKey(rankNumber)){
-                cardMap.put(rankNumber, c);
+            if (!cardByRankMap.containsKey(rankNumber)) {
+                cardByRankMap.put(rankNumber, c);
             }
         }
 
-        int lastRank = 0;
-        boolean isAceLow = false;
-        for (int start = 2; start <= 14; start ++) {  // Loop from 2 (lowest rank) to Ace (high rank)
-            boolean isStraight = true;
-
-            for (int end = start; end < start + 5; end++) {  // Check for consecutive ranks in a sequence of 5
-                Card endCard = cardMap.getOrDefault(end, null);
-                if (endCard == null) {
-                    isStraight = false;
-                    break;
-                }else{
-
-                    lastRank = end;
-                    if(start == 2 && end == 5
-                            && cardMap.containsKey(CardRank.ACE.getNumber())){
-                        isAceLow = true;
-                        break;
-                    }
-                }
-            }
-            if (isStraight) {
-                final int finalStart = start;
-                int finalLastRank = lastRank;
-                if(start + 4 == 14){
-
-                    return cardMap.entrySet()
-                            .stream()
-                            .filter(entry -> entry.getKey() >= finalStart && entry.getKey() <= finalLastRank)
-                            .map(Map.Entry::getValue)
-                            .collect(Collectors.toList());
-                }else if(isAceLow){
-                    List<Card> orig = cardMap.entrySet()
-                            .stream()
-                            .filter(entryCard -> entryCard.getKey() == CardRank.ACE.getNumber() || (entryCard.getKey() >= finalStart && entryCard.getKey() <= finalLastRank))
-                            .map(Map.Entry::getValue)
-                            .collect(Collectors.toList());
-                    //Swap
-                    List<Card> straightAceLow = new ArrayList<>();
-                    int aceIndex = 4;
-                    straightAceLow.add(0, orig.get(aceIndex) );
-                    straightAceLow.addAll(orig.subList(0, aceIndex));
-                    Collections.reverse(straightAceLow);
-                    return straightAceLow;
-                }
+        for (int i = 14; i - 5 >= 2; i--) {  // Loop from 2 (lowest rank) to Ace (high rank)
+            if ( cardByRankMap.containsKey(i)
+                && cardByRankMap.containsKey(i - 1)
+                    && cardByRankMap.containsKey(i - 2)
+                    && cardByRankMap.containsKey(i - 3)
+                    && cardByRankMap.containsKey(i - 4)) {
+                System.out.println();
+                int finalRank = i;
+                return cardByRankMap.
+                        entrySet()
+                        .stream()
+                        .filter(entry -> entry.getKey() <= finalRank && entry.getKey() >= finalRank -4)
+                        .map(Map.Entry::getValue)
+                        .sorted()
+                        .collect(Collectors.toList());
             }
         }
+
+        if( cardByRankMap.containsKey(FIVE.getNumber())
+                && cardByRankMap.containsKey(FOUR.getNumber())
+                && cardByRankMap.containsKey(THREE.getNumber())
+                && cardByRankMap.containsKey(TWO.getNumber())
+                && cardByRankMap.containsKey(ACE.getNumber())) {
+            //Ace Low
+            List<Card> aceLowHand = new ArrayList<>();
+            aceLowHand.add(cardByRankMap.get(FIVE.getNumber()));
+            aceLowHand.add(cardByRankMap.get(FOUR.getNumber()));
+            aceLowHand.add(cardByRankMap.get(THREE.getNumber()));
+            aceLowHand.add(cardByRankMap.get(TWO.getNumber()));
+            aceLowHand.add(cardByRankMap.get(ACE.getNumber()));
+            return aceLowHand;
+        }
+
         return Collections.emptyList();
     }
 }
