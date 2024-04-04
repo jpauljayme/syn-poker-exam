@@ -1,7 +1,4 @@
-package com.synacy.poker.card;
-
-import java.util.HashMap;
-import java.util.Map;
+package com.synacy.poker.model.card;
 
 /**
  * The rank of a {@link Card} from <em>2</em> to <em>Ace</em>. No jokers.

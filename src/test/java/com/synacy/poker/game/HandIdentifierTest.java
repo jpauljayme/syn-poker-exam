@@ -1,19 +1,19 @@
 package com.synacy.poker.game;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.card.CardRank;
-import com.synacy.poker.card.CardSuit;
-import com.synacy.poker.hand.Hand;
-import com.synacy.poker.hand.HandIdentifier;
-import com.synacy.poker.hand.types.Flush;
-import com.synacy.poker.hand.types.FourOfAKind;
-import com.synacy.poker.hand.types.FullHouse;
-import com.synacy.poker.hand.types.HighCard;
-import com.synacy.poker.hand.types.OnePair;
-import com.synacy.poker.hand.types.Straight;
-import com.synacy.poker.hand.types.StraightFlush;
-import com.synacy.poker.hand.types.ThreeOfAKind;
-import com.synacy.poker.hand.types.TwoPair;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.card.CardRank;
+import com.synacy.poker.model.card.CardSuit;
+import com.synacy.poker.model.hand.Hand;
+import com.synacy.poker.model.hand.HandIdentifier;
+import com.synacy.poker.model.hand.types.Flush;
+import com.synacy.poker.model.hand.types.FourOfAKind;
+import com.synacy.poker.model.hand.types.FullHouse;
+import com.synacy.poker.model.hand.types.HighCard;
+import com.synacy.poker.model.hand.types.OnePair;
+import com.synacy.poker.model.hand.types.Straight;
+import com.synacy.poker.model.hand.types.StraightFlush;
+import com.synacy.poker.model.hand.types.ThreeOfAKind;
+import com.synacy.poker.model.hand.types.TwoPair;
 import org.junit.Test;
 
 import java.util.Arrays;

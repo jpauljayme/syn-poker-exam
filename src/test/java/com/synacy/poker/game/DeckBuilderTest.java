@@ -1,7 +1,7 @@
 package com.synacy.poker.game;
 
-import com.synacy.poker.deck.Deck;
-import com.synacy.poker.deck.DeckBuilder;
+import com.synacy.poker.model.deck.Deck;
+import com.synacy.poker.model.deck.DeckBuilder;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

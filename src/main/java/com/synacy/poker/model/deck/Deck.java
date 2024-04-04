@@ -1,6 +1,6 @@
-package com.synacy.poker.deck;
+package com.synacy.poker.model.deck;
 
-import com.synacy.poker.card.Card;
+import com.synacy.poker.model.card.Card;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +20,7 @@ public class Deck {
 	 *
 	 * @param card
 	 */
-	void addCard(Card card) {
+	public void addCard(Card card) {
 		orderedCards.add(card);
 	}
 
@@ -29,7 +29,7 @@ public class Deck {
 	 *
 	 * @param cards
 	 */
-	void addCards(List<Card> cards) {
+	public void addCards(List<Card> cards) {
 		orderedCards.addAll(cards);
 	}
 

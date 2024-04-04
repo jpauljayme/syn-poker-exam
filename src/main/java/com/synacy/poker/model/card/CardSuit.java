@@ -1,4 +1,4 @@
-package com.synacy.poker.card;
+package com.synacy.poker.model.card;
 
 /**
  * The suit of a {@link Card}. A combination of the suit <code>value</code> and <code>color</code>.

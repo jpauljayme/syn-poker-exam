@@ -1,8 +1,8 @@
-package com.synacy.poker.hand.types;
+package com.synacy.poker.model.hand.types;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.hand.Hand;
-import com.synacy.poker.hand.HandType;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.hand.Hand;
+import com.synacy.poker.model.hand.HandType;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,7 +10,7 @@ import java.util.Objects;
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Full_house">What is a Full House?</a>
  */
-public class FullHouse extends Hand {
+public class FullHouse implements Hand {
 
     private List<Card> threeOfAKindCards;
     private List<Card> pairCards;
@@ -47,5 +47,14 @@ public class FullHouse extends Hand {
     @Override
     public int hashCode() {
         return Objects.hash(threeOfAKindCards, pairCards);
+    }
+
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(Hand o) {
+        return 0;
     }
 }

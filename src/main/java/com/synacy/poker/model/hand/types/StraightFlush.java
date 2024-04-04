@@ -1,12 +1,10 @@
-package com.synacy.poker.hand.types;
+package com.synacy.poker.model.hand.types;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.card.CardRank;
-import com.synacy.poker.hand.HandType;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.hand.Hand;
+import com.synacy.poker.model.hand.HandType;
 
 import java.util.List;
-
-import static com.synacy.poker.card.CardRank.*;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Straight_flush">What is a Straight Flush?</a>
@@ -28,10 +26,16 @@ public class StraightFlush extends Straight {
      */
     @Override
     public String toString() {
-        return getCards().get(0).getRank().compareTo(ACE) == 0
-                ? "Royal Flush"
-                :  String.format("Straight Flush (%s High)",
+        return String.format("Straight Flush (%s High)",
                 getCards().get(0).getRank());
     }
 
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(Hand o) {
+        return 0;
+    }
 }

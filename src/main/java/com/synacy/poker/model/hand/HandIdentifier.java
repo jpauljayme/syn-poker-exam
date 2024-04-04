@@ -1,16 +1,16 @@
-package com.synacy.poker.hand;
+package com.synacy.poker.model.hand;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.card.CardRank;
-import com.synacy.poker.card.CardSuit;
-import com.synacy.poker.hand.types.*;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.card.CardRank;
+import com.synacy.poker.model.card.CardSuit;
+import com.synacy.poker.model.hand.types.*;
 import com.synacy.poker.util.CardRankOrderUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.synacy.poker.card.CardRank.*;
+import static com.synacy.poker.model.card.CardRank.*;
 
 /**
  * A service that is used to identify the {@link Hand} given the player's cards and the community
@@ -30,8 +30,7 @@ public class HandIdentifier {
 
         if (!playerCards.isEmpty() && !communityCards.isEmpty()) {
             List<Card> sortedList = new ArrayList<>(communityCards);
-            CardRankOrderUtil
-                    .sortCardsDescending(sortedList);
+            CardRankOrderUtil.sortCardsDescending(sortedList);
             List<Card> sortedDescCommCards = Collections.unmodifiableList(sortedList);
 
             //Put all cards into one stack
@@ -53,6 +52,7 @@ public class HandIdentifier {
                         rankNumberCounts.getOrDefault(rank.getNumber(),
                                 0) + 1);
             }
+
             List<CardRank> pairs = countFrequencyOfPairs(rankCounts);
 
             Optional<CardRank> threeOfAKind = countFrequencyThreeOfAKind(rankCounts);
@@ -66,7 +66,12 @@ public class HandIdentifier {
             List<Card> hasStraightFlush = hasStraightFlush(allCards);
 
             if (!hasStraightFlush.isEmpty()) {
-                return new StraightFlush(hasStraightFlush);
+                if(hasStraightFlush.get(0).getRank() == ACE &&
+                        hasStraightFlush.get(4).getRank() == TEN ){
+                    return new RoyalFlush(hasStraightFlush);
+                }else{
+                    return new StraightFlush(hasStraightFlush);
+                }
             } else if (!fourOfAKindHand.isEmpty()) {
                 //Four Of A Kind
                 return new FourOfAKind(fourOfAKindHand.get(0), fourOfAKindHand.get(1));
@@ -148,7 +153,6 @@ public class HandIdentifier {
                             && cardsBySuit.get(i + 2).getRank().getNumber() == cardsBySuit.get(i + 3).getRank().getNumber() + 1
                             && cardsBySuit.get(i + 3).getRank().getNumber() == cardsBySuit.get(i + 4).getRank().getNumber() + 1) {
                         return cardsBySuit.subList(0, 5);
-
                     }
                 }
                 int lastElem = cardsBySuit.size() -1;

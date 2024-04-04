@@ -1,8 +1,8 @@
-package com.synacy.poker.hand.types;
+package com.synacy.poker.model.hand.types;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.hand.Hand;
-import com.synacy.poker.hand.HandType;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.hand.Hand;
+import com.synacy.poker.model.hand.HandType;
 
 import java.util.List;
 import java.util.Objects;
@@ -10,10 +10,10 @@ import java.util.Objects;
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Four_of_a_kind">What is a Four of a Kind?</a>
  */
-public class FourOfAKind extends Hand {
+public class FourOfAKind implements Hand {
 
-    private List<Card> fourOfAKindCards;
-    private List<Card> otherCards;
+    private final List<Card> fourOfAKindCards;
+    private final List<Card> otherCards;
 
     public FourOfAKind(List<Card> fourOfAKindCards, List<Card> otherCards) {
         this.fourOfAKindCards = fourOfAKindCards;
@@ -45,5 +45,14 @@ public class FourOfAKind extends Hand {
     @Override
     public int hashCode() {
         return Objects.hash(fourOfAKindCards, otherCards);
+    }
+
+    /**
+     * @param o the object to be compared.
+     * @return
+     */
+    @Override
+    public int compareTo(Hand o) {
+        return 0;
     }
 }

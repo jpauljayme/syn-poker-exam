@@ -1,4 +1,4 @@
-package com.synacy.poker.card;
+package com.synacy.poker.model.card;
 
 /**
  * A blank card. Also, the back side of the card.

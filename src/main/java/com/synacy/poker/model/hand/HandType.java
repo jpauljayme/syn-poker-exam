@@ -1,4 +1,4 @@
-package com.synacy.poker.hand;
+package com.synacy.poker.model.hand;
 
 /**
  * An enum of {@link Hand}s

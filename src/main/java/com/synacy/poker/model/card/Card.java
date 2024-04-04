@@ -1,4 +1,4 @@
-package com.synacy.poker.card;
+package com.synacy.poker.model.card;
 
 import java.util.Objects;
 
@@ -10,10 +10,6 @@ public class Card implements Comparable<Card> {
 	private final CardRank rank;
 	private final CardSuit suit;
 
-//	public Card(CardRank rank, CardSuit suit) {
-//		this.rank = rank;
-//		this.suit = suit;
-//	}
 	protected Card(Builder builder){
 		this.rank = builder.rank;
 		this.suit = builder.suit;

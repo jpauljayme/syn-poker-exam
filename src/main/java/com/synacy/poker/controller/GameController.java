@@ -1,12 +1,13 @@
-package com.synacy.poker.game;
+package com.synacy.poker.controller;
 
-import com.synacy.poker.card.BlankCard;
-import com.synacy.poker.card.Card;
+import com.synacy.poker.service.game.GameService;
+import com.synacy.poker.model.Player;
+import com.synacy.poker.model.card.BlankCard;
+import com.synacy.poker.model.card.Card;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,8 +24,6 @@ public class GameController {
 
 	@GetMapping("/")
 	public String index(Model model) {
-		System.out.println("STARTING");
-
 		model.addAttribute("game", game);
 		List<Player> players = game.getPlayers();
 		for (int i = 0; i < players.size(); i++) {

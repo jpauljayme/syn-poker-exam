@@ -1,8 +1,9 @@
 package com.synacy.poker.game;
 
-import com.synacy.poker.deck.DeckBuilder;
-import com.synacy.poker.hand.HandIdentifier;
-import com.synacy.poker.hand.WinningHandCalculatorService;
+import com.synacy.poker.model.deck.DeckBuilder;
+import com.synacy.poker.model.hand.HandIdentifier;
+import com.synacy.poker.service.game.WinningHandCalculatorService;
+import com.synacy.poker.service.game.GameService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

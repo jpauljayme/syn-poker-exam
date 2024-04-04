@@ -1,5 +1,6 @@
-package com.synacy.poker.hand;
+package com.synacy.poker.service.game;
 
+import com.synacy.poker.model.hand.Hand;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -18,6 +19,6 @@ public class WinningHandCalculatorService {
 	 */
 	public Optional<Hand> calculateWinningHand(List<Hand> playerHands) {
 		return  playerHands.stream()
-				.max(Comparator.comparing(Hand::getHandType));
+				.max(Comparable::compareTo);
 	}
 }

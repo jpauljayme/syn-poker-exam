@@ -1,11 +1,11 @@
-package com.synacy.poker.game;
+package com.synacy.poker.service.game;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.deck.Deck;
-import com.synacy.poker.deck.DeckBuilder;
-import com.synacy.poker.hand.Hand;
-import com.synacy.poker.hand.HandIdentifier;
-import com.synacy.poker.hand.WinningHandCalculatorService;
+import com.synacy.poker.model.Player;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.deck.Deck;
+import com.synacy.poker.model.deck.DeckBuilder;
+import com.synacy.poker.model.hand.Hand;
+import com.synacy.poker.model.hand.HandIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -121,7 +121,6 @@ public class GameService {
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
         Optional<Hand> optionalHand=  winningHandCalculator.calculateWinningHand(playerHands);
-
         winningHand = optionalHand.orElse(null);
     }
 
@@ -132,11 +131,10 @@ public class GameService {
      * @return true if the player's hand is equal to the winning hand.
      */
     public boolean checkIfPlayerWon(Player player) {
-        System.out.println("Checkif player won");
+        System.out.println("Check if player won : " + player.getName());
         Hand playerHand = identifyPlayerHand(player);
-        System.out.println(playerHand);
-        System.out.println(winningHand);
-        System.out.println(winningHand != null && winningHand.equals(playerHand));
+        System.out.println("Player hand" + playerHand);
+        System.out.println("Winning Hand: " + winningHand);
         return winningHand != null && winningHand.equals(playerHand);
     }
 

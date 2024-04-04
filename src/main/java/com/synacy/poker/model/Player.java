@@ -1,6 +1,6 @@
-package com.synacy.poker.game;
+package com.synacy.poker.model;
 
-import com.synacy.poker.card.Card;
+import com.synacy.poker.model.card.Card;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class Player {
 
-	private String name;
-	private List<Card> hand = new ArrayList<>();
+	private final String name;
+	private final List<Card> hand = new ArrayList<>();
 
 	public Player(String name) {
 		this.name = name;
@@ -25,11 +25,11 @@ public class Player {
 		return hand;
 	}
 
-	void addToHand(Card card) {
+	public void addToHand(Card card) {
 		hand.add(card);
 	}
 
-	void clearHand() {
+	public void clearHand() {
 		hand.clear();
 	}
 
