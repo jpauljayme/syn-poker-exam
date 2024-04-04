@@ -16,13 +16,33 @@ public class ThreeOfAKindTest {
     @Test
     public void toString_withTripFoursAndKickers() {
         List<Card> trips = Arrays.asList(
-                new Card(CardRank.FOUR, CardSuit.CLUBS),
-                new Card(CardRank.FOUR, CardSuit.DIAMONDS),
-                new Card(CardRank.FOUR, CardSuit.SPADES)
+//                new Card(CardRank.FOUR, CardSuit.CLUBS),
+//                new Card(CardRank.FOUR, CardSuit.DIAMONDS),
+//                new Card(CardRank.FOUR, CardSuit.SPADES)
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.SPADES)
+                        .build()
         );
         List<Card> kickers = Arrays.asList(
-                new Card(CardRank.ACE, CardSuit.CLUBS),
-                new Card(CardRank.TWO, CardSuit.CLUBS)
+//                new Card(CardRank.ACE, CardSuit.CLUBS),
+//                new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
         );
 
         ThreeOfAKind threeOfAKind = new ThreeOfAKind(trips, kickers);

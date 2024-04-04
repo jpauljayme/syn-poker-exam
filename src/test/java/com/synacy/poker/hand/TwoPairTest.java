@@ -16,18 +16,44 @@ public class TwoPairTest {
     @Test
     public void toString_withTwoPairsAndAceKicker() {
         List<Card> firstPair = Arrays.asList(
-                new Card(CardRank.FOUR, CardSuit.CLUBS),
-                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+//                new Card(CardRank.FOUR, CardSuit.CLUBS),
+//                new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
         );
         List<Card> secondPair = Arrays.asList(
-                new Card(CardRank.THREE, CardSuit.CLUBS),
-                new Card(CardRank.THREE, CardSuit.DIAMONDS)
+//                new Card(CardRank.THREE, CardSuit.CLUBS),
+//                new Card(CardRank.THREE, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.THREE)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
         );
         List<Card> kicker = Arrays.asList(
-                new Card(CardRank.ACE, CardSuit.CLUBS)
-        );
+//                new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
+                );
 
-        TwoPair twoPair = new TwoPair(firstPair, secondPair, new Card(CardRank.ACE, CardSuit.CLUBS));
+        TwoPair twoPair = new TwoPair(firstPair,
+                secondPair,
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
+        );
 
         assertEquals("Two Pair (4,3) - A High", twoPair.toString());
     }

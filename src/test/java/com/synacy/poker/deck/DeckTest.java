@@ -26,8 +26,9 @@ public class DeckTest {
 
 	@Test
 	public void addCard() {
-		Card card = new Card(CardRank.ACE, CardSuit.HEARTS);
-
+		//new Card(CardRank.ACE, CardSuit.HEARTS);
+		Card card = new Card.Builder().rank(CardRank.ACE)
+						.suit(CardSuit.HEARTS).build();
 		deck.addCard(card);
 
 		assertEquals(1, deck.size());
@@ -35,11 +36,35 @@ public class DeckTest {
 
 	@Test
 	public void shuffle_returnsShuffledDeckOfEqualSize() {
-		Card aceHearts = new Card(CardRank.ACE, CardSuit.HEARTS);
-		Card aceDiamonds = new Card(CardRank.ACE, CardSuit.DIAMONDS);
-		Card aceClubs = new Card(CardRank.ACE, CardSuit.CLUBS);
-		Card aceSpades = new Card(CardRank.ACE, CardSuit.SPADES);
-		deck.addCards(Arrays.asList(aceHearts, aceDiamonds, aceClubs, aceSpades));
+//		Card aceHearts = new Card(CardRank.ACE, CardSuit.HEARTS);
+//		Card aceDiamonds = new Card(CardRank.ACE, CardSuit.DIAMONDS);
+//		Card aceClubs = new Card(CardRank.ACE, CardSuit.CLUBS);
+//		Card aceSpades = new Card(CardRank.ACE, CardSuit.SPADES);
+//		deck.addCards(Arrays.asList(aceHearts, aceDiamonds, aceClubs, aceSpades));
+		Card aceHearts = new Card.Builder()
+				.rank(CardRank.ACE)
+				.suit(CardSuit.HEARTS)
+				.build();
+
+		Card aceDiamonds = new Card.Builder()
+				.rank(CardRank.ACE)
+				.suit(CardSuit.DIAMONDS)
+				.build();
+
+		Card aceClubs = new Card.Builder()
+				.rank(CardRank.ACE)
+				.suit(CardSuit.CLUBS)
+				.build();
+
+		Card aceSpades = new Card.Builder()
+				.rank(CardRank.ACE)
+				.suit(CardSuit.SPADES)
+				.build();
+
+		deck.addCards(Arrays.asList(aceHearts,
+				aceDiamonds,
+				aceClubs,
+				aceSpades));
 
 		deck.shuffle();
 
@@ -48,8 +73,16 @@ public class DeckTest {
 
 	@Test
 	public void removeFromTop_removeCardFromTopOfDeck() {
-		Card expectedTopCard = new Card(CardRank.ACE, CardSuit.HEARTS);
-		Card bottomCard = new Card(CardRank.ACE, CardSuit.DIAMONDS);
+		Card expectedTopCard = new Card.Builder()
+				.rank(CardRank.ACE)
+				.suit(CardSuit.HEARTS)
+				.build();
+
+		Card bottomCard = new Card.Builder()
+				.rank(CardRank.ACE)
+				.suit(CardSuit.DIAMONDS)
+				.build();
+
 		deck.addCards(Arrays.asList(expectedTopCard, bottomCard));
 
 		Card actualRemovedTopCard = deck.removeFromTop();

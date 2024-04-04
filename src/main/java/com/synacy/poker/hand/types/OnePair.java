@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#One_pair">What is a One Pair?</a>
@@ -48,5 +49,18 @@ public class OnePair extends Hand {
         }
 
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OnePair onePair = (OnePair) o;
+        return Objects.equals(pairCards, onePair.pairCards) && Objects.equals(otherCards, onePair.otherCards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(pairCards, otherCards);
     }
 }

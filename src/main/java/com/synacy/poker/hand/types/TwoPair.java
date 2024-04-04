@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Two_pair">What is a Two Pair?</a>
@@ -38,4 +39,16 @@ public class TwoPair extends Hand {
                 otherCard.getRank());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TwoPair twoPair = (TwoPair) o;
+        return Objects.equals(firstPairCards, twoPair.firstPairCards) && Objects.equals(secondPairCards, twoPair.secondPairCards) && Objects.equals(otherCard, twoPair.otherCard);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstPairCards, secondPairCards, otherCard);
+    }
 }

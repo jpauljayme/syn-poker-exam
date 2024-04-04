@@ -5,13 +5,14 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Flush">What is a flush?</a>
  */
 public class Flush extends Hand {
 
-    private List<Card> cards;
+    private final List<Card> cards;
 
     public Flush(List<Card> cards) {
         this.cards = cards;
@@ -20,6 +21,10 @@ public class Flush extends Hand {
     public HandType getHandType() {
         return HandType.FLUSH;
     }
+
+    /**
+     * @return
+     */
 
     public List<Card> getCards() {
         return cards;
@@ -35,4 +40,16 @@ public class Flush extends Hand {
                 cards.get(0).getRank());
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flush flush = (Flush) o;
+        return Objects.equals(cards, flush.cards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cards);
+    }
 }

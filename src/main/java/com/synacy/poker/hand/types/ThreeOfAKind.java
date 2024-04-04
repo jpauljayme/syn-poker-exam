@@ -5,6 +5,7 @@ import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandType;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @see <a href="https://en.wikipedia.org/wiki/List_of_poker_hands#Three_of_a_kind">What is a Three of a Kind?</a>
@@ -36,4 +37,16 @@ public class ThreeOfAKind extends Hand {
                 );
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ThreeOfAKind that = (ThreeOfAKind) o;
+        return Objects.equals(threeOfAKindCards, that.threeOfAKindCards) && Objects.equals(otherCards, that.otherCards);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(threeOfAKindCards, otherCards);
+    }
 }

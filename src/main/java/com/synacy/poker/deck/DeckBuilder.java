@@ -40,7 +40,9 @@ public class DeckBuilder {
 		CardRank[] cardRanks = CardRank.values();
 
 		return Arrays.stream(cardRanks)
-				.map(rank -> new Card(rank, suit))
+				.map(rank -> new Card.Builder()
+						.rank(rank)
+						.suit(suit).build())
 				.collect(Collectors.toList());
 	}
 

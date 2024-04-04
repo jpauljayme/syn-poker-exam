@@ -5,8 +5,8 @@ package com.synacy.poker.card;
  */
 public class BlankCard extends Card {
 
-	public BlankCard() {
-		super(null, null);
+	private BlankCard(Builder builder) {
+		super(builder);
 	}
 
 	/**
@@ -23,4 +23,15 @@ public class BlankCard extends Card {
 		return "&nbsp;";
 	}
 
+	public static class Builder extends Card.Builder {
+
+		public Builder description(String description) {
+			return this;
+		}
+
+		@Override
+		public BlankCard build() {
+			return new BlankCard(this);
+		}
+	}
 }
