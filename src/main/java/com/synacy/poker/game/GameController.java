@@ -26,7 +26,6 @@ public class GameController {
 		System.out.println("STARTING");
 
 		model.addAttribute("game", game);
-
 		List<Player> players = game.getPlayers();
 		for (int i = 0; i < players.size(); i++) {
 			int playerNumber = i + 1;
@@ -45,7 +44,7 @@ public class GameController {
 		if (communityCardIterator.hasNext()) {
 			return communityCardIterator.next();
 		} else {
-			return new BlankCard();
+			return new BlankCard.Builder().build();
 		}
 	}
 

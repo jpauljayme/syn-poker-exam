@@ -29,16 +29,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_royalFlush() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.ACE, CardSuit.SPADES),
-				new Card(CardRank.KING, CardSuit.SPADES)
+//				new Card(CardRank.ACE, CardSuit.SPADES),
+//				new Card(CardRank.KING, CardSuit.SPADES)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.KING)
+                        .suit(CardSuit.SPADES)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.SPADES),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.CLUBS)
+//				new Card(CardRank.QUEEN, CardSuit.SPADES),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -50,16 +78,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straightFlush() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.SPADES),
-				new Card(CardRank.JACK, CardSuit.SPADES)
+//				new Card(CardRank.QUEEN, CardSuit.SPADES),
+//				new Card(CardRank.JACK, CardSuit.SPADES)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.EIGHT, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.CLUBS)
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.EIGHT, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -71,16 +127,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straightFlush_aceLow() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.FIVE, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.SPADES)
+//				new Card(CardRank.FIVE, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.SPADES)
+                new Card.Builder()
+                        .rank(CardRank.FIVE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.SPADES)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.FOUR, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.THREE, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.CLUBS)
+//				new Card(CardRank.FOUR, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.THREE, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.THREE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -92,16 +176,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_fourOfAKind() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.EIGHT, CardSuit.SPADES),
-				new Card(CardRank.EIGHT, CardSuit.CLUBS)
+//				new Card(CardRank.EIGHT, CardSuit.SPADES),
+//				new Card(CardRank.EIGHT, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.EIGHT, CardSuit.DIAMONDS),
-				new Card(CardRank.EIGHT, CardSuit.HEARTS),
-				new Card(CardRank.SEVEN, CardSuit.SPADES),
-				new Card(CardRank.SIX, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.CLUBS)
+//				new Card(CardRank.EIGHT, CardSuit.DIAMONDS),
+//				new Card(CardRank.EIGHT, CardSuit.HEARTS),
+//				new Card(CardRank.SEVEN, CardSuit.SPADES),
+//				new Card(CardRank.SIX, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.HEARTS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SIX)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -113,16 +225,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_fullHouse() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.EIGHT, CardSuit.SPADES),
-				new Card(CardRank.EIGHT, CardSuit.DIAMONDS)
+//				new Card(CardRank.EIGHT, CardSuit.SPADES),
+//				new Card(CardRank.EIGHT, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.SEVEN, CardSuit.HEARTS),
-				new Card(CardRank.SEVEN, CardSuit.SPADES),
-				new Card(CardRank.EIGHT, CardSuit.CLUBS),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.CLUBS)
+//				new Card(CardRank.SEVEN, CardSuit.HEARTS),
+//				new Card(CardRank.SEVEN, CardSuit.SPADES),
+//				new Card(CardRank.EIGHT, CardSuit.CLUBS),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.HEARTS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.EIGHT)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -134,16 +274,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_flush() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.SEVEN, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.SPADES)
+//				new Card(CardRank.SEVEN, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.SPADES)
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.SPADES),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.CLUBS)
+//				new Card(CardRank.QUEEN, CardSuit.SPADES),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -156,17 +324,49 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straight_withFiveHighAceLow() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.ACE, CardSuit.CLUBS),
-				new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+//				new Card(CardRank.ACE, CardSuit.CLUBS),
+//				new Card(CardRank.FOUR, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.FOUR)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.ACE, CardSuit.HEARTS),
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.FIVE, CardSuit.SPADES),
-				new Card(CardRank.THREE, CardSuit.CLUBS),
-				new Card(CardRank.TWO, CardSuit.HEARTS),
-				new Card(CardRank.ACE, CardSuit.HEARTS)
+//				new Card(CardRank.ACE, CardSuit.HEARTS),
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.FIVE, CardSuit.SPADES),
+//				new Card(CardRank.THREE, CardSuit.CLUBS),
+//				new Card(CardRank.TWO, CardSuit.HEARTS),
+//				new Card(CardRank.ACE, CardSuit.HEARTS)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.HEARTS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.FIVE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.THREE)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.HEARTS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.HEARTS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -177,16 +377,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straight_withAceHigh() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.KING, CardSuit.CLUBS)
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.KING, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.KING)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.ACE, CardSuit.CLUBS)
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.ACE, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -198,16 +426,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straight_withKingHigh() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.KING, CardSuit.CLUBS)
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.KING, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.KING)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.CLUBS),
-				new Card(CardRank.TWO, CardSuit.CLUBS)
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.CLUBS),
+//				new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -219,16 +475,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_threeOfAKind() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.TWO, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.CLUBS)
+//				new Card(CardRank.TWO, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.DIAMONDS)
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -240,16 +524,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_twoPair() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.TWO, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.CLUBS)
+//				new Card(CardRank.TWO, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.SPADES),
-				new Card(CardRank.NINE, CardSuit.DIAMONDS)
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.SPADES),
+//				new Card(CardRank.NINE, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -261,16 +573,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_onePair() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.TWO, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.CLUBS)
+//				new Card(CardRank.TWO, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.THREE, CardSuit.SPADES),
-				new Card(CardRank.SIX, CardSuit.DIAMONDS)
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.THREE, CardSuit.SPADES),
+//				new Card(CardRank.SIX, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.THREE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SIX)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
@@ -282,16 +622,44 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_highCard() {
 		List<Card> playerCards = Arrays.asList(
-				new Card(CardRank.ACE, CardSuit.SPADES),
-				new Card(CardRank.TWO, CardSuit.CLUBS)
+//				new Card(CardRank.ACE, CardSuit.SPADES),
+//				new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
-				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-				new Card(CardRank.JACK, CardSuit.SPADES),
-				new Card(CardRank.TEN, CardSuit.SPADES),
-				new Card(CardRank.THREE, CardSuit.SPADES),
-				new Card(CardRank.SIX, CardSuit.DIAMONDS)
+//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
+//				new Card(CardRank.JACK, CardSuit.SPADES),
+//				new Card(CardRank.TEN, CardSuit.SPADES),
+//				new Card(CardRank.THREE, CardSuit.SPADES),
+//				new Card(CardRank.SIX, CardSuit.DIAMONDS)
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.DIAMONDS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.JACK)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.THREE)
+                        .suit(CardSuit.SPADES)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SIX)
+                        .suit(CardSuit.DIAMONDS)
+                        .build()
 		);
 
 		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);

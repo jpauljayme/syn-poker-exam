@@ -5,7 +5,7 @@ import com.synacy.poker.deck.Deck;
 import com.synacy.poker.deck.DeckBuilder;
 import com.synacy.poker.hand.Hand;
 import com.synacy.poker.hand.HandIdentifier;
-import com.synacy.poker.hand.WinningHandCalculator;
+import com.synacy.poker.hand.WinningHandCalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class GameService {
 
     private final DeckBuilder deckBuilder;
     private final HandIdentifier handIdentifier;
-    private final WinningHandCalculator winningHandCalculator;
+    private final WinningHandCalculatorService winningHandCalculator;
 
     private Deck deck;
 
@@ -40,7 +40,7 @@ public class GameService {
     @Autowired
     public GameService(DeckBuilder deckBuilder,
                        HandIdentifier handIdentifier,
-                       WinningHandCalculator winningHandCalculator) {
+                       WinningHandCalculatorService winningHandCalculator) {
         this.deckBuilder = deckBuilder;
         this.handIdentifier = handIdentifier;
         this.winningHandCalculator = winningHandCalculator;
@@ -120,13 +120,9 @@ public class GameService {
         List<Hand> playerHands = players.stream()
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
-        Optional<Hand> optionalHand = winningHandCalculator.calculateWinningHand(playerHands);
-        winningHand = optionalHand.orElse(null);
+        Optional<Hand> optionalHand=  winningHandCalculator.calculateWinningHand(playerHands);
 
-//        for(Player player : players){
-//            if(checkIfPlayerWon(player)){
-//            }
-//        }
+        winningHand = optionalHand.orElse(null);
     }
 
     /**

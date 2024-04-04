@@ -10,9 +10,13 @@ public class Card implements Comparable<Card> {
 	private final CardRank rank;
 	private final CardSuit suit;
 
-	public Card(CardRank rank, CardSuit suit) {
-		this.rank = rank;
-		this.suit = suit;
+//	public Card(CardRank rank, CardSuit suit) {
+//		this.rank = rank;
+//		this.suit = suit;
+//	}
+	protected Card(Builder builder){
+		this.rank = builder.rank;
+		this.suit = builder.suit;
 	}
 
 	/**
@@ -66,5 +70,24 @@ public class Card implements Comparable<Card> {
 	@Override
 	public int compareTo(Card otherCard) {
 		return otherCard.rank.compareTo(this.rank);
+	}
+
+	public static class Builder {
+		private CardRank rank;
+		private CardSuit suit;
+
+		public Builder rank(CardRank rank) {
+			this.rank = rank;
+			return this;
+		}
+
+		public Builder suit(CardSuit suit) {
+			this.suit = suit;
+			return this;
+		}
+
+		public Card build() {
+			return new Card(this);
+		}
 	}
 }

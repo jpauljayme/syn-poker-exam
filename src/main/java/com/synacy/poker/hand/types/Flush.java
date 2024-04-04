@@ -22,6 +22,10 @@ public class Flush extends Hand {
         return HandType.FLUSH;
     }
 
+    /**
+     * @return
+     */
+
     public List<Card> getCards() {
         return cards;
     }

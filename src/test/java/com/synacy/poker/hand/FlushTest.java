@@ -16,11 +16,26 @@ public class FlushTest {
     @Test
     public void toString_withAceHighFlush() {
         List<Card> cards = Arrays.asList(
-                new Card(CardRank.ACE, CardSuit.CLUBS),
-                new Card(CardRank.KING, CardSuit.CLUBS),
-                new Card(CardRank.QUEEN, CardSuit.CLUBS),
-                new Card(CardRank.SEVEN, CardSuit.CLUBS),
-                new Card(CardRank.TWO, CardSuit.CLUBS)
+                new Card.Builder()
+                        .rank(CardRank.ACE)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.KING)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.QUEEN)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TWO)
+                        .suit(CardSuit.CLUBS)
+                        .build()
         );
 
         Flush flush = new Flush(cards);
@@ -31,12 +46,31 @@ public class FlushTest {
     @Test
     public void toString_withKingHighFlush() {
         List<Card> cards = Arrays.asList(
-                new Card(CardRank.KING, CardSuit.CLUBS),
-                new Card(CardRank.SEVEN, CardSuit.CLUBS),
-                new Card(CardRank.SIX, CardSuit.CLUBS),
-                new Card(CardRank.TEN, CardSuit.CLUBS),
-                new Card(CardRank.NINE, CardSuit.CLUBS)
-        );
+                new Card.Builder()
+                        .rank(CardRank.KING)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SIX)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.SEVEN)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.TEN)
+                        .suit(CardSuit.CLUBS)
+                        .build(),
+                new Card.Builder()
+                        .rank(CardRank.NINE)
+                        .suit(CardSuit.CLUBS)
+                        .build()
+                );
 
         Flush flush = new Flush(cards);
 

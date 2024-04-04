@@ -22,16 +22,6 @@ public enum CardRank {
 	KING("K", 13),
 	ACE("A", 14); //LOW OR HIGH..
 
-	private static final Map<String, CardRank> BY_RANK_LABEL = new HashMap<>();
-	private static final Map<Integer, CardRank> BY_RANK_NUMBER = new HashMap<>();
-
-	static {
-		for (CardRank cardRank : values()) {
-			BY_RANK_LABEL.put(cardRank.label, cardRank);
-			BY_RANK_NUMBER.put(cardRank.number, cardRank);
-		}
-	}
-
 	private final String label;
 	private final int number;
 
@@ -39,14 +29,6 @@ public enum CardRank {
 
 		this.label = label;
 		this.number = number;
-	}
-
-	public static CardRank valueOfRankLabel(String label) {
-		return BY_RANK_LABEL.get(label);
-	}
-
-	public static CardRank valueOfRankNumber(int number) {
-		return BY_RANK_NUMBER.get(number);
 	}
 
 	@Override

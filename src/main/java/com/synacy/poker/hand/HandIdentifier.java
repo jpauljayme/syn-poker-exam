@@ -28,7 +28,6 @@ public class HandIdentifier {
      */
     public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) {
 
-        //TODO: Implement
         if (!playerCards.isEmpty() && !communityCards.isEmpty()) {
             List<Card> sortedList = new ArrayList<>(communityCards);
             CardRankOrderUtil
