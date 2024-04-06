@@ -32,6 +32,10 @@ public class RoyalFlush implements Hand {
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof RoyalFlush){
+            return 0;
+        }else {
+            return this.getHandType().compareTo(o.getHandType());
+        }
     }
 }

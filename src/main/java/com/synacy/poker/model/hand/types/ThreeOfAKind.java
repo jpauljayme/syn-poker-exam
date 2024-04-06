@@ -51,11 +51,33 @@ public class ThreeOfAKind implements Hand {
     }
 
     /**
-     * @param o the object to be compared.
-     * @return
+     * @param o the Hand to be compared.
+     * @return 0 if the two hands are equal, a negative integer
+     * if this hand is lesser than the other hand, and a
+     * positive integer greater than 0 when
+     * the other hand is greater than this hand
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof ThreeOfAKind){
+            ThreeOfAKind otherHand = (ThreeOfAKind) o;
+
+            int compareTripletRank = this.threeOfAKindCards.get(0).getRank()
+                    .compareTo(otherHand.threeOfAKindCards.get(0).getRank());
+
+            if(compareTripletRank != 0){
+                return  compareTripletRank;
+            }else{
+                //Equal, compare by highest kicker, then lowest
+                int compareFirstKicker = this.otherCards.get(0).getRank().compareTo(otherHand.otherCards.get(0).getRank());
+                if(compareFirstKicker != 0){
+                    return compareFirstKicker;
+                }else{
+                    return this.otherCards.get(1).getRank().compareTo(otherHand.otherCards.get(1).getRank());
+                }
+            }
+        }else{
+            return this.getHandType().compareTo(o.getHandType());
+        }
     }
 }

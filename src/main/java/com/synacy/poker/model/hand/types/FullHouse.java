@@ -55,6 +55,19 @@ public class FullHouse implements Hand {
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof FullHouse){
+            FullHouse otherHouse = (FullHouse) o;
+            int compareTripletRank = this.threeOfAKindCards.get(0).getRank()
+                    .compareTo(otherHouse.threeOfAKindCards.get(0).getRank());
+            if(compareTripletRank != 0){
+                return compareTripletRank;
+            }else {
+                return this.pairCards.get(0).getRank()
+                        .compareTo(otherHouse.pairCards.get(0).getRank());
+
+            }
+        }else{
+            return this.getHandType().compareTo(o.getHandType());
+        }
     }
 }

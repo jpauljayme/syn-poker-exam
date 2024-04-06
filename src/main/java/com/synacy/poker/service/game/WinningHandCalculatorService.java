@@ -18,7 +18,7 @@ public class WinningHandCalculatorService {
 	 * @return The winning {@link Hand} from a list of player hands.
 	 */
 	public Optional<Hand> calculateWinningHand(List<Hand> playerHands) {
-		return  playerHands.stream()
-				.max(Comparable::compareTo);
+			return  playerHands.stream()
+					.max(Comparable::compareTo);
 	}
 }

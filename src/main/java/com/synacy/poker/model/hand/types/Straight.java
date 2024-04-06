@@ -49,11 +49,20 @@ public class Straight implements Hand {
     }
 
     /**
-     * @param o the object to be compared.
-     * @return
+     * @param o the Hand to be compared.
+     * @return 0 if the two hands are equal, a negative integer
+     * if this hand is lesser than the other hand, and a
+     * positive integer greater than 0 when
+     * the other hand is greater than this hand
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof Straight){
+            Straight otherHand = (Straight) o;
+
+            return this.cards.get(0).getRank().compareTo(otherHand.cards.get(0).getRank());
+        }else{
+            return this.getHandType().compareTo(o.getHandType());
+        }
     }
 }

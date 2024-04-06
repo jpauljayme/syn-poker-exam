@@ -348,7 +348,5 @@ public class WinningHandCalculatorTest {
 
         assertThat(playerOne)
                 .isEqualByComparingTo(playerTwo);
-//                .contains(playerOne)
-//                .contains(playerTwo);
     }
 }

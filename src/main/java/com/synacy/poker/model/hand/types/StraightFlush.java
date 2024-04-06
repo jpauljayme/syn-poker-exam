@@ -36,6 +36,13 @@ public class StraightFlush extends Straight {
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof StraightFlush){
+            StraightFlush otherHand = (StraightFlush) o;
+
+            return this.getCards().get(0).getRank()
+                    .compareTo(otherHand.getCards().get(0).getRank());
+        }else{
+            return this.getHandType().compareTo(o.getHandType());
+        }
     }
 }

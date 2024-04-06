@@ -53,6 +53,18 @@ public class FourOfAKind implements Hand {
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof FourOfAKind){
+            FourOfAKind otherHand = (FourOfAKind) o;
+
+            int compareQuadrupletRank = this.fourOfAKindCards.get(0).getRank()
+                    .compareTo(otherHand.fourOfAKindCards.get(0).getRank());
+            if(compareQuadrupletRank != 0){
+                return compareQuadrupletRank;
+            }else {
+                return this.otherCards.get(0).getRank()
+                        .compareTo(otherHand.otherCards.get(0).getRank());
+            }
+        }
+        return this.getHandType().compareTo(o.getHandType());
     }
 }

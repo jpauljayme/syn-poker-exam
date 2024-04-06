@@ -55,10 +55,41 @@ public class Flush implements Hand {
 
     /**
      * @param o the object to be compared.
-     * @return
+     * @return Compares this hand with the specified other hand
+     * for order. Returns a negative integer, zero, or a
+     * positive integer as this object is less than, equal to,
+     * or greater than the specified object.
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof Flush){
+            Flush otherHand = (Flush) o;
+            int compareHighestRank = this.cards.get(0).getRank().compareTo(otherHand.cards.get(0).getRank());
+            if(compareHighestRank != 0){
+                return compareHighestRank;
+            }else{
+                int compareSecondHighestRank = this.cards.get(1).getRank().compareTo(otherHand.cards.get(1).getRank());
+
+                if(compareSecondHighestRank != 0){
+                    return compareSecondHighestRank;
+                }else{
+                    int compareThirdHighestRank = this.cards.get(2).getRank().compareTo(otherHand.cards.get(2).getRank());
+
+                    if(compareThirdHighestRank != 0){
+                        return  compareThirdHighestRank;
+                    }else{
+                        int compareFourthHighestRank = this.cards.get(3).getRank()
+                                .compareTo(otherHand.cards.get(3).getRank());
+                        if(compareFourthHighestRank != 0){
+                            return compareFourthHighestRank;
+                        }else{
+                            return this.cards.get(4).getRank()
+                                    .compareTo(otherHand.cards.get(4).getRank());
+                        }
+                    }
+                }
+            }
+        }
+        return this.getHandType().compareTo(o.getHandType());
     }
 }

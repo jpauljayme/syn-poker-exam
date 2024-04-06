@@ -111,7 +111,6 @@ public class HandIdentifier {
 
                     return new OnePair(playerCards, kickers);
                 } else {
-
                     List<Card> firstPair = allCards.stream().
                             filter(card -> card.getRank() == pairs.get(0))
                             .collect(Collectors.toList());

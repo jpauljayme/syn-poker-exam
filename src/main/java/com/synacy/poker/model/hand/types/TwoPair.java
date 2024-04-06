@@ -1,6 +1,7 @@
 package com.synacy.poker.model.hand.types;
 
 import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.card.CardRank;
 import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.model.hand.HandType;
 
@@ -53,20 +54,40 @@ public class TwoPair implements Hand {
     }
 
     /**
-     * @param otherHand the object to be compared.
+     * @param o the object to be compared.
      * @return
      */
     @Override
-    public int compareTo(Hand otherHand) {
-        int isEqualHand = this.getHandType().compareTo(otherHand.getHandType());
-//        if(otherHand instanceof TwoPair){
-//            //Equal Rank
-//            //Evaluate per pair, then kicker
-//            this.firstPairCards.a
-//            return
-//        }else{
-//            return isEqualHand;
-//        }
-        return  0;
+    public int compareTo(Hand o) {
+        if (o instanceof TwoPair) {
+            TwoPair otherHand = (TwoPair) o;
+
+            CardRank thisFirstPairRank = this.firstPairCards.get(0).getRank();
+            CardRank thisSecondPairRank = this.secondPairCards.get(0).getRank();
+
+            CardRank thisHighestRank = thisFirstPairRank.compareTo(thisSecondPairRank) >= 1 ? thisFirstPairRank : thisSecondPairRank;
+            CardRank thisSecondHighestRank = thisFirstPairRank.equals(thisHighestRank) ? thisSecondPairRank : thisFirstPairRank;
+
+            CardRank otherFirstPairRank = otherHand.firstPairCards.get(0).getRank();
+            CardRank otherSecondPairRank = otherHand.secondPairCards.get(0).getRank();
+
+            CardRank otherHighestRank = otherFirstPairRank.compareTo(otherSecondPairRank) >= 1 ? otherFirstPairRank : otherSecondPairRank;
+            CardRank otherSecondHighestRank = otherFirstPairRank.equals(otherHighestRank) ? otherSecondPairRank : otherFirstPairRank;
+
+            int compareHighestPair = thisHighestRank.compareTo(otherHighestRank);
+            if(compareHighestPair != 0){
+                return  compareHighestPair;
+            }else{
+                int compareSecondHighestPair = thisSecondHighestRank.compareTo(otherSecondHighestRank);
+                if(compareSecondHighestPair != 0){
+                    return compareHighestPair;
+                }else{
+                    //Compare othercard
+                    return this.otherCard.compareTo(otherHand.otherCard);
+                }
+            }
+        }else{
+            return this.getHandType().compareTo(o.getHandType());
+        }
     }
 }

@@ -17,7 +17,7 @@ public enum CardRank {
 	JACK("J", 11),
 	QUEEN("Q", 12),
 	KING("K", 13),
-	ACE("A", 14); //LOW OR HIGH..
+	ACE("A", 14);
 
 	private final String label;
 	private final int number;
