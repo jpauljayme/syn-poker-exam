@@ -1,11 +1,9 @@
-package com.synacy.poker.service.game;
+package com.synacy.poker.service;
 
 import com.synacy.poker.model.Player;
 import com.synacy.poker.model.card.Card;
-import com.synacy.poker.model.deck.Deck;
-import com.synacy.poker.model.deck.DeckBuilder;
+
 import com.synacy.poker.model.hand.Hand;
-import com.synacy.poker.model.hand.HandIdentifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,33 +19,27 @@ import java.util.stream.Collectors;
 @Service
 public class GameService {
 
-    private final List<Player> players = new ArrayList<>();
+//    private List<Player> players;
 
     private final List<Card> communityCards = new ArrayList<>();
 
-    private final DeckBuilder deckBuilder;
-    private final HandIdentifier handIdentifier;
-    private final WinningHandCalculatorService winningHandCalculator;
-
-    private Deck deck;
-
-    private Hand winningHand = null;
-
-    private static final int MAX_PLAYER_CARDS = 2;
-    private static final int MAX_COMMUNITY_CARDS = 5;
-    private boolean isGameInProgress = false;
+    private final DeckService deckService;
+    private final HandIdentifierService handIdentifierService;
+    private final WinningHandCalculatorService winningHandCalculatorService;
+    private final PlayerService playerService;
+    private final CommunityCardsService communityCardsService;
 
     @Autowired
-    public GameService(DeckBuilder deckBuilder,
-                       HandIdentifier handIdentifier,
-                       WinningHandCalculatorService winningHandCalculator) {
-        this.deckBuilder = deckBuilder;
-        this.handIdentifier = handIdentifier;
-        this.winningHandCalculator = winningHandCalculator;
-//        players.add(new Player("Alex"));
-//        players.add(new Player("Bob"));
-//        players.add(new Player("Jane"));
-//        startNewGame();
+    public GameService(DeckService deckService,
+                       HandIdentifierService handIdentifierService,
+                       WinningHandCalculatorService winningHandCalculatorService,
+                       PlayerService playerService,
+                       CommunityCardsService communityCardsService) {
+        this.deckService = deckService;
+        this.handIdentifierService = handIdentifierService;
+        this.winningHandCalculatorService = winningHandCalculatorService;
+        this.playerService = playerService;
+        this.communityCardsService = communityCardsService;
     }
     @PostConstruct
     public void init() {
@@ -68,19 +60,11 @@ public class GameService {
      * </ul>
      */
     public void startNewGame() {
-        isGameInProgress = true;
-        if(players.isEmpty()){
-            players.add(new Player("Alex"));
-            players.add(new Player("Bob"));
-            players.add(new Player("Jane"));
-        }
-        players.forEach(Player::clearHand);
-        communityCards.clear();
-
-        deck = deckBuilder.buildDeck();
-        deck.shuffle();
-
-        dealHands();
+        playerService.clearHandForEachPlayer();
+        communityCardsService.clearCommunityCards();
+        deckService.buildDeck();
+        deckService.shuffle();
+        playerService.dealHands();
     }
 
     /**
@@ -96,16 +80,15 @@ public class GameService {
      * Dealt community are of course removed from the deck at the time their placed on the table.
      */
     public void nextAction() {
-        if (communityCards.isEmpty()) {
+        if (communityCardsService.isCommunityCardsEmpty()) {
             burnCard();
             dealThreeCommunityCards();
-        } else if (communityCards.size() < MAX_COMMUNITY_CARDS) {
+        } else if (!communityCardsService.isCommunityCardsFull()) {
             burnCard();
             dealOneCommunityCard();
         }
 
         if (hasEnded()) {
-            System.out.println("Has ended");
             identifyWinningHand();
         }
     }
@@ -116,12 +99,10 @@ public class GameService {
      * @see <a href="https://www.youtube.com/watch?v=GAoR9ji8D6A">Poker rules</a>
      */
     public void identifyWinningHand() {
-        System.out.println("In identify winning hand");
-        List<Hand> playerHands = players.stream()
+        List<Hand> playerHands = playerService.getPlayers().stream()
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
-        Optional<Hand> optionalHand=  winningHandCalculator.calculateWinningHand(playerHands);
-        winningHand = optionalHand.orElse(null);
+        winningHandCalculatorService.calculateWinningHand(playerHands);
     }
 
     /**
@@ -131,11 +112,8 @@ public class GameService {
      * @return true if the player's hand is equal to the winning hand.
      */
     public boolean checkIfPlayerWon(Player player) {
-        System.out.println("Check if player won : " + player.getName());
         Hand playerHand = identifyPlayerHand(player);
-        System.out.println("Player hand" + playerHand);
-        System.out.println("Winning Hand: " + winningHand);
-        return winningHand != null && winningHand.equals(playerHand);
+        return winningHandCalculatorService.getWinningHand().equals(playerHand);
     }
 
     /**
@@ -146,57 +124,45 @@ public class GameService {
      * @return The {@link} of a player, e.g. High Card, One Pair, Straight, etc.
      * @see <a href="https://www.youtube.com/watch?v=GAoR9ji8D6A">Poker rules</a>
      */
-    public Hand identifyPlayerHand(Player player) {
-        List<Card> playerCards = player.getHand();
-        return handIdentifier.identifyHand(playerCards, communityCards);
-    }
+    public Hand identifyPlayerHand(Player player) {return handIdentifierService.identifyHand(player.getHand(), communityCardsService.getCommunityCards());}
 
     /**
      * @return The list of {@link Player}s
      */
     public List<Player> getPlayers() {
-        return players;
+        return playerService.getPlayers();
     }
 
     /**
      * @return The list of community cards {@link Card}
      */
     public List<Card> getCommunityCards() {
-        return communityCards;
+        return communityCardsService.getCommunityCards();
     }
 
     /**
      * @return true if the number of community cards is equal to the maximum community cards allowed.
      */
     public boolean hasEnded() {
-        return communityCards.size() >= MAX_COMMUNITY_CARDS;
-    }
-
-    private void dealHands() {
-        for (int i = 0; i < MAX_PLAYER_CARDS; i++) {
-            dealOneCardToEachPlayer();
-        }
+//        return communityCards.size() >= MAX_COMMUNITY_CARDS;
+        return communityCardsService.isCommunityCardsFull();
     }
 
     private void dealOneCardToEachPlayer() {
-        players.forEach(player -> player.addToHand(deck.removeFromTop()));
+//        players.forEach(player -> player.addToHand(deck.removeFromTop()));
     }
 
     private void dealThreeCommunityCards() {
-        communityCards.add(deck.removeFromTop());
-        communityCards.add(deck.removeFromTop());
-        communityCards.add(deck.removeFromTop());
+        communityCardsService.addCommunityCard(deckService.removeCardFromTop());
+        communityCardsService.addCommunityCard(deckService.removeCardFromTop());
+        communityCardsService.addCommunityCard(deckService.removeCardFromTop());
     }
 
     private void dealOneCommunityCard() {
-        communityCards.add(deck.removeFromTop());
+        communityCardsService.addCommunityCard(deckService.removeCardFromTop());
     }
 
     private void burnCard() {
-        deck.removeFromTop();
-    }
-
-    public boolean isGameInProgress() {
-        return isGameInProgress;
+        deckService.removeCardFromTop();
     }
 }

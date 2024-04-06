@@ -1,7 +1,8 @@
-package com.synacy.poker.service.game;
+package com.synacy.poker.service;
 
 import com.synacy.poker.model.hand.Hand;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
@@ -10,15 +11,20 @@ import java.util.Optional;
 /**
  * A service class used to calculate the winning hand.
  */
-@Component
+@Service
 public class WinningHandCalculatorService {
+	private Hand winningHand = null;
 
 	/**
 	 * @param playerHands
 	 * @return The winning {@link Hand} from a list of player hands.
 	 */
-	public Optional<Hand> calculateWinningHand(List<Hand> playerHands) {
-			return  playerHands.stream()
-					.max(Comparable::compareTo);
+	public void calculateWinningHand(List<Hand> playerHands) {
+			  winningHand = playerHands.stream()
+					.max(Comparable::compareTo).get();
+	}
+
+	public Hand getWinningHand() {
+		return winningHand;
 	}
 }

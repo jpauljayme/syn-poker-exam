@@ -3,7 +3,7 @@ package com.synacy.poker.hand;
 import com.synacy.poker.model.card.Card;
 import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.model.hand.types.*;
-import com.synacy.poker.service.game.WinningHandCalculatorService;
+import com.synacy.poker.service.WinningHandCalculatorService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +91,11 @@ public class WinningHandCalculatorTest {
                                 .suit(HEARTS)
                                 .build())
         ));
-        Optional<Hand> winningHand = winningHandCalculatorService.calculateWinningHand(playerHands);
+        winningHandCalculatorService.calculateWinningHand(playerHands);
+        Hand winningHand = winningHandCalculatorService.getWinningHand();
+
         assertThat(winningHand)
-                .isPresent()
-                .contains(expectedWinningHand);
+                .isEqualByComparingTo(expectedWinningHand);
     }
 
     @Test
@@ -171,11 +172,10 @@ public class WinningHandCalculatorTest {
                                 .build())
         ));
 
-        Optional<Hand> winningHand = winningHandCalculatorService.calculateWinningHand(playerHands);
-
+        winningHandCalculatorService.calculateWinningHand(playerHands);
+        Hand winningHand = winningHandCalculatorService.getWinningHand();
         assertThat(winningHand)
-                .isPresent()
-                .contains(expectedWinningHand);
+                .isEqualByComparingTo(expectedWinningHand);
     }
 
     @Test
@@ -254,12 +254,10 @@ public class WinningHandCalculatorTest {
         playerHands.add(playerOne);
         playerHands.add(playerThree);
 
-        Optional<Hand> winningHand = winningHandCalculatorService
-                .calculateWinningHand(playerHands);
-
+        winningHandCalculatorService.calculateWinningHand(playerHands);
+        Hand winningHand = winningHandCalculatorService.getWinningHand();
         assertThat(winningHand)
-                .isPresent()
-                .contains(playerOne);
+                .isEqualByComparingTo(playerOne);
     }
 
     @Test
@@ -339,12 +337,11 @@ public class WinningHandCalculatorTest {
         playerHands.add(playerOne);
         playerHands.add(playerThree);
 
-        Optional<Hand> winningHand = winningHandCalculatorService
-                .calculateWinningHand(playerHands);
+        winningHandCalculatorService.calculateWinningHand(playerHands);
+        Hand winningHand = winningHandCalculatorService.getWinningHand();
 
         assertThat(winningHand)
-                .isPresent()
-                .contains(playerTwo);
+                .isEqualByComparingTo(playerTwo);
 
         assertThat(playerOne)
                 .isEqualByComparingTo(playerTwo);

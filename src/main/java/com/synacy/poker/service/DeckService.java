@@ -1,9 +1,10 @@
-package com.synacy.poker.model.deck;
+package com.synacy.poker.service;
 
 import com.synacy.poker.model.card.Card;
 import com.synacy.poker.model.card.CardRank;
 import com.synacy.poker.model.card.CardSuit;
-import org.springframework.stereotype.Component;
+import com.synacy.poker.model.deck.Deck;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,19 +13,16 @@ import java.util.stream.Collectors;
 /**
  * A service class used to build a {@link Deck}
  */
-@Component
-public class DeckBuilder {
+@Service
+public class DeckService {
+
+	private final Deck deck = new Deck();
 
 	/**
 	 * Builds a complete {@link Deck} without Jokers. Does not shuffle the deck.
-	 *
-	 * @return a {@link Deck} of {@link Card}
 	 */
-	public Deck buildDeck() {
-		Deck deck = new Deck();
+	public void buildDeck() {
 		deck.addCards(generateCards());
-
-		return deck;
 	}
 
 	private List<Card> generateCards() {
@@ -44,6 +42,14 @@ public class DeckBuilder {
 						.rank(rank)
 						.suit(suit).build())
 				.collect(Collectors.toList());
+	}
+
+	public void shuffle() {
+		deck.shuffle();
+	}
+
+	public Card removeCardFromTop() {
+		return this.deck.removeFromTop();
 	}
 
 }

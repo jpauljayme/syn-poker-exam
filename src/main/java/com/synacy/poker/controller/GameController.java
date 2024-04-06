@@ -1,9 +1,9 @@
 package com.synacy.poker.controller;
 
-import com.synacy.poker.service.game.GameService;
 import com.synacy.poker.model.Player;
 import com.synacy.poker.model.card.BlankCard;
 import com.synacy.poker.model.card.Card;
+import com.synacy.poker.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,23 +15,24 @@ import java.util.List;
 @Controller
 public class GameController {
 
-	private final GameService game;
+	private final GameService gameService;
 
 	@Autowired
 	public GameController(GameService game) {
-		this.game = game;
+		this.gameService = game;
 	}
 
 	@GetMapping("/")
 	public String index(Model model) {
-		model.addAttribute("game", game);
-		List<Player> players = game.getPlayers();
-		for (int i = 0; i < players.size(); i++) {
-			int playerNumber = i + 1;
-			model.addAttribute("player" + playerNumber, players.get(i));
+		model.addAttribute("game", gameService);
+
+		int i = 1;
+		for (Player p : gameService.getPlayers()) {
+			model.addAttribute("player" + i, p);
+			i++;
 		}
 
-		Iterator<Card> communityCardIterator = game.getCommunityCards().iterator();
+		Iterator<Card> communityCardIterator = gameService.getCommunityCards().iterator();
 		for (int communityCardNumber = 1; communityCardNumber <= 5; communityCardNumber++) {
 			model.addAttribute("communityCard" + communityCardNumber, fetchNextCommunityCard(communityCardIterator));
 		}
@@ -49,10 +50,10 @@ public class GameController {
 
 	@GetMapping("/nextAction")
 	public String nextAction() {
-		if (game.hasEnded()) {
-			game.startNewGame();
+		if (gameService.hasEnded()) {
+			gameService.startNewGame();
 		} else {
-			game.nextAction();
+			gameService.nextAction();
 		}
 
 		return "redirect:/";

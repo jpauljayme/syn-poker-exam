@@ -4,17 +4,10 @@ import com.synacy.poker.model.card.Card;
 import com.synacy.poker.model.card.CardRank;
 import com.synacy.poker.model.card.CardSuit;
 import com.synacy.poker.model.hand.Hand;
-import com.synacy.poker.model.hand.HandIdentifier;
-import com.synacy.poker.model.hand.types.Flush;
-import com.synacy.poker.model.hand.types.FourOfAKind;
-import com.synacy.poker.model.hand.types.FullHouse;
-import com.synacy.poker.model.hand.types.HighCard;
-import com.synacy.poker.model.hand.types.OnePair;
-import com.synacy.poker.model.hand.types.Straight;
-import com.synacy.poker.model.hand.types.StraightFlush;
-import com.synacy.poker.model.hand.types.ThreeOfAKind;
-import com.synacy.poker.model.hand.types.TwoPair;
+import com.synacy.poker.service.HandIdentifierService;
+import com.synacy.poker.model.hand.types.*;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,15 +15,14 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class HandIdentifierTest {
+public class HandIdentifierServiceTest {
 
-	private final HandIdentifier handIdentifier = new HandIdentifier();
+	@Autowired
+	private HandIdentifierService handIdentifierService;
 
 	@Test
 	public void identifyHand_royalFlush() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.ACE, CardSuit.SPADES),
-//				new Card(CardRank.KING, CardSuit.SPADES)
                 new Card.Builder()
                         .rank(CardRank.ACE)
                         .suit(CardSuit.SPADES)
@@ -42,11 +34,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.SPADES),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.SPADES)
@@ -69,17 +56,15 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
-		assertTrue(identifiedHand instanceof StraightFlush);
+		assertTrue(identifiedHand instanceof RoyalFlush);
 		assertEquals("Royal Flush", identifiedHand.toString());
 	}
 
 	@Test
 	public void identifyHand_straightFlush() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.SPADES),
-//				new Card(CardRank.JACK, CardSuit.SPADES)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.SPADES)
@@ -91,11 +76,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.EIGHT, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.TEN)
                         .suit(CardSuit.SPADES)
@@ -118,7 +98,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof StraightFlush);
 		assertEquals("Straight Flush (Q High)", identifiedHand.toString());
@@ -127,8 +107,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straightFlush_aceLow() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.FIVE, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.SPADES)
                 new Card.Builder()
                         .rank(CardRank.FIVE)
                         .suit(CardSuit.SPADES)
@@ -140,11 +118,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.FOUR, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.THREE, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.FOUR)
                         .suit(CardSuit.SPADES)
@@ -167,7 +140,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof StraightFlush);
 		assertEquals("Straight Flush (5 High)", identifiedHand.toString());
@@ -176,8 +149,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_fourOfAKind() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.EIGHT, CardSuit.SPADES),
-//				new Card(CardRank.EIGHT, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.EIGHT)
                         .suit(CardSuit.SPADES)
@@ -189,11 +160,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.EIGHT, CardSuit.DIAMONDS),
-//				new Card(CardRank.EIGHT, CardSuit.HEARTS),
-//				new Card(CardRank.SEVEN, CardSuit.SPADES),
-//				new Card(CardRank.SIX, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.EIGHT)
                         .suit(CardSuit.DIAMONDS)
@@ -216,7 +182,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof FourOfAKind);
 		assertEquals("Quads (8) - 7 High", identifiedHand.toString());
@@ -225,8 +191,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_fullHouse() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.EIGHT, CardSuit.SPADES),
-//				new Card(CardRank.EIGHT, CardSuit.DIAMONDS)
                 new Card.Builder()
                         .rank(CardRank.EIGHT)
                         .suit(CardSuit.SPADES)
@@ -238,11 +202,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.SEVEN, CardSuit.HEARTS),
-//				new Card(CardRank.SEVEN, CardSuit.SPADES),
-//				new Card(CardRank.EIGHT, CardSuit.CLUBS),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.SEVEN)
                         .suit(CardSuit.HEARTS)
@@ -265,7 +224,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof FullHouse);
 		assertEquals("Full House (8,7)", identifiedHand.toString());
@@ -274,8 +233,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_flush() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.SEVEN, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.SPADES)
                 new Card.Builder()
                         .rank(CardRank.SEVEN)
                         .suit(CardSuit.SPADES)
@@ -287,11 +244,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.SPADES),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.SPADES)
@@ -314,7 +266,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof Flush);
 		assertEquals("Flush (Q High)", identifiedHand.toString());
@@ -324,8 +276,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straight_withFiveHighAceLow() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.ACE, CardSuit.CLUBS),
-//				new Card(CardRank.FOUR, CardSuit.DIAMONDS)
                 new Card.Builder()
                         .rank(CardRank.ACE)
                         .suit(CardSuit.CLUBS)
@@ -337,12 +287,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.ACE, CardSuit.HEARTS),
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.FIVE, CardSuit.SPADES),
-//				new Card(CardRank.THREE, CardSuit.CLUBS),
-//				new Card(CardRank.TWO, CardSuit.HEARTS),
-//				new Card(CardRank.ACE, CardSuit.HEARTS)
                 new Card.Builder()
                         .rank(CardRank.ACE)
                         .suit(CardSuit.HEARTS)
@@ -369,7 +313,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof Straight);
 		assertEquals("Straight (5 High)", identifiedHand.toString());
@@ -377,8 +321,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straight_withAceHigh() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.KING, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.TEN)
                         .suit(CardSuit.SPADES)
@@ -390,11 +332,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.ACE, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.DIAMONDS)
@@ -417,7 +354,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof Straight);
 		assertEquals("Straight (A High)", identifiedHand.toString());
@@ -426,8 +363,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_straight_withKingHigh() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.KING, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.NINE)
                         .suit(CardSuit.SPADES)
@@ -439,11 +374,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.CLUBS),
-//				new Card(CardRank.TWO, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.DIAMONDS)
@@ -466,7 +396,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof Straight);
 		assertEquals("Straight (K High)", identifiedHand.toString());
@@ -475,8 +405,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_threeOfAKind() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.TWO, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.TWO)
                         .suit(CardSuit.SPADES)
@@ -488,11 +416,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.DIAMONDS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.DIAMONDS)
@@ -515,7 +438,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof ThreeOfAKind);
 		assertEquals("Trips (2) - Q,J High", identifiedHand.toString());
@@ -524,8 +447,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_twoPair() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.TWO, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.TWO)
                         .suit(CardSuit.SPADES)
@@ -537,11 +458,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.SPADES),
-//				new Card(CardRank.NINE, CardSuit.DIAMONDS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.DIAMONDS)
@@ -564,7 +480,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof TwoPair);
 		assertEquals("Two Pair (9,2) - Q High", identifiedHand.toString());
@@ -573,8 +489,6 @@ public class HandIdentifierTest {
 	@Test
 	public void identifyHand_onePair() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.TWO, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.CLUBS)
                 new Card.Builder()
                         .rank(CardRank.TWO)
                         .suit(CardSuit.SPADES)
@@ -586,11 +500,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.THREE, CardSuit.SPADES),
-//				new Card(CardRank.SIX, CardSuit.DIAMONDS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.DIAMONDS)
@@ -613,7 +522,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof OnePair);
 		assertEquals("One Pair (2) - Q,J,10 High", identifiedHand.toString());
@@ -635,11 +544,6 @@ public class HandIdentifierTest {
 		);
 
 		List<Card> communityCards = Arrays.asList(
-//				new Card(CardRank.QUEEN, CardSuit.DIAMONDS),
-//				new Card(CardRank.JACK, CardSuit.SPADES),
-//				new Card(CardRank.TEN, CardSuit.SPADES),
-//				new Card(CardRank.THREE, CardSuit.SPADES),
-//				new Card(CardRank.SIX, CardSuit.DIAMONDS)
                 new Card.Builder()
                         .rank(CardRank.QUEEN)
                         .suit(CardSuit.DIAMONDS)
@@ -662,7 +566,7 @@ public class HandIdentifierTest {
                         .build()
 		);
 
-		Hand identifiedHand = handIdentifier.identifyHand(playerCards, communityCards);
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
 
 		assertTrue(identifiedHand instanceof HighCard);
 		assertEquals("A,Q,J,10,6", identifiedHand.toString());

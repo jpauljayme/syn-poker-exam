@@ -1,11 +1,12 @@
-package com.synacy.poker.model.hand;
+package com.synacy.poker.service;
 
 import com.synacy.poker.model.card.Card;
 import com.synacy.poker.model.card.CardRank;
 import com.synacy.poker.model.card.CardSuit;
+import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.model.hand.types.*;
 import com.synacy.poker.util.CardRankOrderUtil;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -16,8 +17,8 @@ import static com.synacy.poker.model.card.CardRank.*;
  * A service that is used to identify the {@link Hand} given the player's cards and the community
  * cards.
  */
-@Component
-public class HandIdentifier {
+@Service
+public class HandIdentifierService {
 
     /**
      * Given the player's cards and the community cards, identifies the player's hand.
@@ -130,7 +131,6 @@ public class HandIdentifier {
                         .collect(Collectors.toList()));
             }
         }else{
-            //TODO: Throw a runtime exception ?
             return null;
         }
     }
