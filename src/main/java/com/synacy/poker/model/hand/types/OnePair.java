@@ -30,8 +30,6 @@ public class OnePair implements Hand {
      */
     @Override
     public String toString() {
-
-        //TODO: Implement one pair, probably need to
         StringBuilder builder = new StringBuilder();
         builder.append("One Pair (2)");
 

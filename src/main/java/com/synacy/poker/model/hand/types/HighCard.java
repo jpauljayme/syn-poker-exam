@@ -1,6 +1,7 @@
 package com.synacy.poker.model.hand.types;
 
 import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.card.CardRank;
 import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.model.hand.HandType;
 import com.synacy.poker.util.CardRankOrderUtil;
@@ -15,7 +16,7 @@ import java.util.Objects;
  */
 public class HighCard implements Hand {
 
-    private List<Card> cards;
+    private final List<Card> cards;
 
     public HighCard(List<Card> cards) {
         this.cards = cards;
@@ -62,6 +63,22 @@ public class HighCard implements Hand {
      */
     @Override
     public int compareTo(Hand o) {
-        return 0;
+        if(o instanceof HighCard){
+            HighCard otherHand = (HighCard) o;
+            List<Card> otherCards = otherHand.getCards();
+
+            for (int i = 0 ; i < cards.size(); i++) {
+                int compareResult = cards.get(i).getRank().compareTo(otherCards.get(i).getRank());
+                if (compareResult != 0) {
+                    return compareResult;
+                }
+            }
+            return 0;
+        }
+        return this.getHandType().compareTo(o.getHandType());
+    }
+
+    public List<Card> getCards() {
+        return cards;
     }
 }

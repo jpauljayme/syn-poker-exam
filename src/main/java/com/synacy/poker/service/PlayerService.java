@@ -36,10 +36,6 @@ public class PlayerService {
         return playerRepository.getPlayers();
     }
 
-    public void dealOneCardToEachPlayer() {
-        players.forEach(player -> player.addToHand(deckService.removeCardFromTop()));
-    }
-
     public void clearHandForEachPlayer() {
         players.forEach(Player::clearHand);
     }

@@ -1,12 +1,9 @@
 package com.synacy.poker.service;
 
 import com.synacy.poker.model.hand.Hand;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A service class used to calculate the winning hand.
@@ -27,4 +24,10 @@ public class WinningHandCalculatorService {
 	public Hand getWinningHand() {
 		return winningHand;
 	}
+
+    public boolean isPlayerWinner(Hand playerHand) {
+		return winningHand != null
+				&& playerHand != null
+				&& winningHand.compareTo(playerHand) == 0;
+    }
 }

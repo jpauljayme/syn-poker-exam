@@ -2,15 +2,12 @@ package com.synacy.poker.service;
 
 import com.synacy.poker.model.Player;
 import com.synacy.poker.model.card.Card;
-
 import com.synacy.poker.model.hand.Hand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -18,11 +15,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class GameService {
-
-//    private List<Player> players;
-
-    private final List<Card> communityCards = new ArrayList<>();
-
     private final DeckService deckService;
     private final HandIdentifierService handIdentifierService;
     private final WinningHandCalculatorService winningHandCalculatorService;
@@ -41,6 +33,7 @@ public class GameService {
         this.playerService = playerService;
         this.communityCardsService = communityCardsService;
     }
+
     @PostConstruct
     public void init() {
         // Actions to perform after initialization
@@ -102,6 +95,7 @@ public class GameService {
         List<Hand> playerHands = playerService.getPlayers().stream()
                 .map(this::identifyPlayerHand)
                 .collect(Collectors.toList());
+
         winningHandCalculatorService.calculateWinningHand(playerHands);
     }
 
@@ -112,8 +106,11 @@ public class GameService {
      * @return true if the player's hand is equal to the winning hand.
      */
     public boolean checkIfPlayerWon(Player player) {
+        System.out.println("Check if player won : " + player.getName());
+
         Hand playerHand = identifyPlayerHand(player);
-        return winningHandCalculatorService.getWinningHand().equals(playerHand);
+        System.out.println(playerHand.toString());
+        return winningHandCalculatorService.isPlayerWinner(playerHand);
     }
 
     /**
@@ -124,7 +121,8 @@ public class GameService {
      * @return The {@link} of a player, e.g. High Card, One Pair, Straight, etc.
      * @see <a href="https://www.youtube.com/watch?v=GAoR9ji8D6A">Poker rules</a>
      */
-    public Hand identifyPlayerHand(Player player) {return handIdentifierService.identifyHand(player.getHand(), communityCardsService.getCommunityCards());}
+    public Hand identifyPlayerHand(Player player) {return handIdentifierService.identifyHand(player.getHand(),
+            communityCardsService.getCommunityCards());}
 
     /**
      * @return The list of {@link Player}s
@@ -144,12 +142,7 @@ public class GameService {
      * @return true if the number of community cards is equal to the maximum community cards allowed.
      */
     public boolean hasEnded() {
-//        return communityCards.size() >= MAX_COMMUNITY_CARDS;
         return communityCardsService.isCommunityCardsFull();
-    }
-
-    private void dealOneCardToEachPlayer() {
-//        players.forEach(player -> player.addToHand(deck.removeFromTop()));
     }
 
     private void dealThreeCommunityCards() {

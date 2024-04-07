@@ -7,14 +7,21 @@ import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.service.HandIdentifierService;
 import com.synacy.poker.model.hand.types.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static com.synacy.poker.model.card.CardRank.*;
+import static com.synacy.poker.model.card.CardSuit.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+@SpringBootTest
+@RunWith(SpringRunner.class)
 public class HandIdentifierServiceTest {
 
 	@Autowired
@@ -24,35 +31,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_royalFlush() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.SPADES)
+                        .rank(ACE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.KING)
-                        .suit(CardSuit.SPADES)
+                        .rank(KING)
+                        .suit(SPADES)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(QUEEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -66,35 +73,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_straightFlush() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(QUEEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.SPADES)
+                        .rank(EIGHT)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -108,35 +115,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_straightFlush_aceLow() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.FIVE)
-                        .suit(CardSuit.SPADES)
+                        .rank(FIVE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.SPADES)
+                        .rank(ACE)
+                        .suit(SPADES)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.FOUR)
-                        .suit(CardSuit.SPADES)
+                        .rank(FOUR)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.THREE)
-                        .suit(CardSuit.SPADES)
+                        .rank(THREE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -150,35 +157,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_fourOfAKind() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.SPADES)
+                        .rank(EIGHT)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.CLUBS)
+                        .rank(EIGHT)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(EIGHT)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.HEARTS)
+                        .rank(EIGHT)
+                        .suit(HEARTS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.SEVEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(SEVEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.SIX)
-                        .suit(CardSuit.SPADES)
+                        .rank(SIX)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build()
 		);
 
@@ -192,35 +199,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_fullHouse() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.SPADES)
+                        .rank(EIGHT)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(EIGHT)
+                        .suit(DIAMONDS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.SEVEN)
-                        .suit(CardSuit.HEARTS)
+                        .rank(SEVEN)
+                        .suit(HEARTS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.SEVEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(SEVEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.EIGHT)
-                        .suit(CardSuit.CLUBS)
+                        .rank(EIGHT)
+                        .suit(CLUBS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -234,35 +241,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_flush() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.SEVEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(SEVEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(QUEEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -277,39 +284,39 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_straight_withFiveHighAceLow() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.FOUR)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(FOUR)
+                        .suit(DIAMONDS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.HEARTS)
+                        .rank(ACE)
+                        .suit(HEARTS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.FIVE)
-                        .suit(CardSuit.SPADES)
+                        .rank(FIVE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.THREE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(THREE)
+                        .suit(CLUBS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.HEARTS)
+                        .rank(TWO)
+                        .suit(HEARTS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.HEARTS)
+                        .rank(ACE)
+                        .suit(HEARTS)
                         .build()
 		);
 
@@ -322,35 +329,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_straight_withAceHigh() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.KING)
-                        .suit(CardSuit.CLUBS)
+                        .rank(KING)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(ACE)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -364,35 +371,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_straight_withKingHigh() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.KING)
-                        .suit(CardSuit.CLUBS)
+                        .rank(KING)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.CLUBS)
+                        .rank(NINE)
+                        .suit(CLUBS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.CLUBS)
+                        .rank(TWO)
+                        .suit(CLUBS)
                         .build()
 		);
 
@@ -406,35 +413,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_threeOfAKind() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.CLUBS)
+                        .rank(TWO)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(TWO)
+                        .suit(DIAMONDS)
                         .build()
 		);
 
@@ -448,35 +455,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_twoPair() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.CLUBS)
+                        .rank(TWO)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.SPADES)
+                        .rank(NINE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.NINE)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(NINE)
+                        .suit(DIAMONDS)
                         .build()
 		);
 
@@ -490,35 +497,35 @@ public class HandIdentifierServiceTest {
 	public void identifyHand_onePair() {
 		List<Card> playerCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.SPADES)
+                        .rank(TWO)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.CLUBS)
+                        .rank(TWO)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.THREE)
-                        .suit(CardSuit.SPADES)
+                        .rank(THREE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.SIX)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(SIX)
+                        .suit(DIAMONDS)
                         .build()
 		);
 
@@ -531,38 +538,36 @@ public class HandIdentifierServiceTest {
 	@Test
 	public void identifyHand_highCard() {
 		List<Card> playerCards = Arrays.asList(
-//				new Card(CardRank.ACE, CardSuit.SPADES),
-//				new Card(CardRank.TWO, CardSuit.CLUBS)
                 new Card.Builder()
-                        .rank(CardRank.ACE)
-                        .suit(CardSuit.SPADES)
+                        .rank(ACE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TWO)
-                        .suit(CardSuit.CLUBS)
+                        .rank(TWO)
+                        .suit(CLUBS)
                         .build()
 		);
 
 		List<Card> communityCards = Arrays.asList(
                 new Card.Builder()
-                        .rank(CardRank.QUEEN)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(QUEEN)
+                        .suit(DIAMONDS)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.JACK)
-                        .suit(CardSuit.SPADES)
+                        .rank(JACK)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.TEN)
-                        .suit(CardSuit.SPADES)
+                        .rank(TEN)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.THREE)
-                        .suit(CardSuit.SPADES)
+                        .rank(THREE)
+                        .suit(SPADES)
                         .build(),
                 new Card.Builder()
-                        .rank(CardRank.SIX)
-                        .suit(CardSuit.DIAMONDS)
+                        .rank(SIX)
+                        .suit(DIAMONDS)
                         .build()
 		);
 
@@ -570,5 +575,47 @@ public class HandIdentifierServiceTest {
 
 		assertTrue(identifiedHand instanceof HighCard);
 		assertEquals("A,Q,J,10,6", identifiedHand.toString());
+	}
+
+	@Test
+	public void identifyHand_highCard_2() {
+		List<Card> playerCards = Arrays.asList(
+				new Card.Builder()
+						.rank(EIGHT)
+						.suit(CLUBS)
+						.build(),
+				new Card.Builder()
+						.rank(KING)
+						.suit(DIAMONDS)
+						.build()
+		);
+
+		List<Card> communityCards = Arrays.asList(
+				new Card.Builder()
+						.rank(NINE)
+						.suit(HEARTS)
+						.build(),
+				new Card.Builder()
+						.rank(FIVE)
+						.suit(HEARTS)
+						.build(),
+				new Card.Builder()
+						.rank(TEN)
+						.suit(SPADES)
+						.build(),
+				new Card.Builder()
+						.rank(QUEEN)
+						.suit(DIAMONDS)
+						.build(),
+				new Card.Builder()
+						.rank(FOUR)
+						.suit(SPADES)
+						.build()
+		);
+
+		Hand identifiedHand = handIdentifierService.identifyHand(playerCards, communityCards);
+
+		assertTrue(identifiedHand instanceof HighCard);
+		assertEquals("K,Q,10,9,8", identifiedHand.toString());
 	}
 }

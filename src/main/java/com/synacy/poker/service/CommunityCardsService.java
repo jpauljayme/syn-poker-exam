@@ -9,14 +9,8 @@ import java.util.List;
 @Service
 public class CommunityCardsService {
 
-//    private final DeckService deckBuilderService;
     private final List<Card> communityCards = new ArrayList<>();
     private static final int MAX_COMMUNITY_CARDS = 5;
-
-//    @Autowired
-//    public CommunityCardsService(DeckService deckBuilderService) {
-//        this.deckBuilderService = deckBuilderService;
-//    }
 
 
     public void addCommunityCard(Card card) {
@@ -28,7 +22,6 @@ public class CommunityCardsService {
     }
 
     public boolean isCommunityCardsEmpty(){return communityCards.isEmpty();}
-    public int getCommunityCardsSize(){return communityCards.size();}
 
     public boolean isCommunityCardsFull() {
         return communityCards.size() >= MAX_COMMUNITY_CARDS;
