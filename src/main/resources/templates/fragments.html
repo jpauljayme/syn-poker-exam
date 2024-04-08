@@ -9,7 +9,7 @@
             <div class="card-header text-center" th:hidden="${position == 'bottom'}">
                 <!-- Player Name -->
                 <b><span th:text="${player.getName()}"></span></b>
-                <span class="badge badge-warning" th:if="${game.checkIfPlayerWon(player)}">WINNER</span>
+                <span class="badge badge-warning" th:if="${game.hasEnded() && game.checkIfPlayerWon(player)}">WINNER</span>
             </div>
             <div class="card-body">
                 <div class="row">

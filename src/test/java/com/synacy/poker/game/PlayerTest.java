@@ -1,5 +1,6 @@
 package com.synacy.poker.game;
 
+import com.synacy.poker.model.Player;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

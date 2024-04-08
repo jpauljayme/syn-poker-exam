@@ -1,8 +1,9 @@
 package com.synacy.poker.deck;
 
-import com.synacy.poker.card.Card;
-import com.synacy.poker.card.CardRank;
-import com.synacy.poker.card.CardSuit;
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.card.CardRank;
+import com.synacy.poker.model.card.CardSuit;
+import com.synacy.poker.model.deck.Deck;
 import org.junit.Before;
 import org.junit.Test;
 

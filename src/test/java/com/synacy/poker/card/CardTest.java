@@ -1,5 +1,8 @@
 package com.synacy.poker.card;
 
+import com.synacy.poker.model.card.Card;
+import com.synacy.poker.model.card.CardRank;
+import com.synacy.poker.model.card.CardSuit;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

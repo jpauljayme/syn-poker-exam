@@ -1,8 +1,7 @@
 package com.synacy.poker.util;
 
-import com.synacy.poker.card.Card;
+import com.synacy.poker.model.card.Card;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
