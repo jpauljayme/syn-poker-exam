@@ -1,11 +1,9 @@
 package com.synacy.poker.game;
 
 import com.synacy.poker.model.card.Card;
-import com.synacy.poker.model.card.CardRank;
-import com.synacy.poker.model.card.CardSuit;
 import com.synacy.poker.model.hand.Hand;
-import com.synacy.poker.service.HandIdentifierService;
 import com.synacy.poker.model.hand.types.*;
+import com.synacy.poker.service.HandIdentifierService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +15,9 @@ import java.util.List;
 
 import static com.synacy.poker.model.card.CardRank.*;
 import static com.synacy.poker.model.card.CardSuit.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class HandIdentifierServiceTest {

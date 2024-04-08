@@ -3,7 +3,6 @@ package com.synacy.poker.game;
 import com.synacy.poker.model.Player;
 import com.synacy.poker.model.card.Card;
 import com.synacy.poker.model.card.CardRank;
-
 import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.model.hand.types.HighCard;
 import com.synacy.poker.model.hand.types.OnePair;
@@ -12,10 +11,8 @@ import com.synacy.poker.repository.PlayerRepository;
 import com.synacy.poker.service.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -24,8 +21,6 @@ import java.util.List;
 
 import static com.synacy.poker.model.card.CardRank.*;
 import static com.synacy.poker.model.card.CardSuit.*;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 

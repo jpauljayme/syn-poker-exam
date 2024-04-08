@@ -119,7 +119,7 @@ public class HandIdentifierService {
                             .limit(3)
                             .collect(Collectors.toList());
 
-                    return new OnePair(playerCards, kickers);
+                    return new OnePair(pairCards, kickers);
                 } else {
                     List<Card> firstPair = allCards.stream().
                             filter(card -> card.getRank() == pairs.get(0))
