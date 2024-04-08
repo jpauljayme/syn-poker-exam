@@ -5,7 +5,6 @@ import com.synacy.poker.model.card.CardRank;
 import com.synacy.poker.model.card.CardSuit;
 import com.synacy.poker.model.hand.Hand;
 import com.synacy.poker.model.hand.types.*;
-import com.synacy.poker.util.CardRankOrderUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,13 +29,12 @@ public class HandIdentifierService {
     public Hand identifyHand(List<Card> playerCards, List<Card> communityCards) {
 
         if (!playerCards.isEmpty() && !communityCards.isEmpty()) {
-            List<Card> sortedList = new ArrayList<>(communityCards);
-            CardRankOrderUtil.sortCardsDescending(sortedList);
-            List<Card> sortedDescCommCards = Collections.unmodifiableList(sortedList);
+
 
             //Put all cards into one stack
             List<Card> allCards = new ArrayList<>(playerCards);
-            allCards.addAll(sortedDescCommCards);
+            allCards.addAll(communityCards);
+            Collections.sort(allCards);
 
             Map<CardRank, Integer> rankCounts = new HashMap<>();
             for (Card card : allCards) {
@@ -87,10 +85,12 @@ public class HandIdentifierService {
                 //Full House Hand
                 List<Card> threes = allCards.stream().
                         filter(card -> card.getRank().equals(threeOfAKind.get()))
+                        .limit(3)
                         .collect(Collectors.toList());
 
                 List<Card> pair = allCards.stream().
                         filter(card -> card.getRank() == pairs.get(0))
+                        .limit(2)
                         .collect(Collectors.toList());
 
                 return new FullHouse(threes, pair);
@@ -100,15 +100,24 @@ public class HandIdentifierService {
                         filter(card -> card.getRank().equals(threeOfAKind.get()))
                         .collect(Collectors.toList());
 
-                List<Card> otherCards = Arrays.asList(sortedDescCommCards.get(0), sortedDescCommCards.get(1));
+                List<Card> otherCards = allCards.stream()
+                        .filter(card -> !card.getRank().equals(threeOfAKind.get()))
+                        .limit(2)
+                        .collect(Collectors.toList());
 
                 return new ThreeOfAKind(threes, otherCards);
             } else if (!pairs.isEmpty()) {
                 //ONE PAIR
                 if (pairs.size() == 1) {
-                    List<Card> kickers = Arrays.asList(sortedDescCommCards.get(0),
-                            sortedDescCommCards.get(1),
-                            sortedDescCommCards.get(2));
+                    List<Card> pairCards = allCards.stream()
+                            .filter(card -> card.getRank().equals(pairs.get(0)))
+                            .limit(2)
+                            .collect(Collectors.toList());
+
+                    List<Card> kickers = allCards.stream()
+                            .filter(card -> !card.getRank().equals(pairs.get(0)))
+                            .limit(3)
+                            .collect(Collectors.toList());
 
                     return new OnePair(playerCards, kickers);
                 } else {
@@ -118,10 +127,14 @@ public class HandIdentifierService {
                     List<Card> secondPair = allCards.stream().
                             filter(card -> card.getRank() == pairs.get(1))
                             .collect(Collectors.toList());
+                    Card otherCard = allCards
+                            .stream()
+                            .filter(card -> !(card.getRank().equals(pairs.get(0)) && card.getRank().equals(pairs.get(1))))
+                            .findFirst().get();
 
                     return new TwoPair(firstPair,
                             secondPair,
-                            sortedDescCommCards.get(0));
+                            otherCard);
                 }
             }else {
                 return new HighCard(allCards
@@ -211,25 +224,25 @@ public class HandIdentifierService {
                 .findFirst();
 
         if (hasFreqRank.isPresent()) {
-            int mostFrequentRank = hasFreqRank.get();
-            List<Card> fourOfAKindCards = allCards.stream()
-                    .filter(card -> card.getRank().getNumber() == mostFrequentRank)
-                    .collect(Collectors.toList());
-            List<Card> kicker = new ArrayList<>(1);
-            Optional<Card> kickerCard = allCards.stream()
-                    .filter(card -> card.getRank().getNumber() != mostFrequentRank)
-                    .min(Comparator.naturalOrder());
-            if (kickerCard.isPresent()) {
-                kicker.add(kickerCard.get());
-                ArrayList<List<Card>> ret = new ArrayList<>();
-                ret.add(fourOfAKindCards);
-                ret.add(kicker);
-                return ret;
-            } else {
-                //throw error
-                return new ArrayList<>(Collections.emptyList());
-            }
+            int fourOfAKindRank = hasFreqRank.get();
 
+            List<Card> kickerCard = new ArrayList<>(1);
+
+            List<Card> fourOfAKindCards = new ArrayList<>(4);
+
+            for(Card c : allCards){
+                if(fourOfAKindCards.size() == 4 && kickerCard.size() == 1){
+                    break;
+                }else if (c.getRank().getNumber() == fourOfAKindRank ) {
+                    fourOfAKindCards.add(c);
+                } else {
+                    kickerCard.add(c);
+                }
+            }
+            ArrayList<List<Card>> hand = new ArrayList<>();
+            hand.add(fourOfAKindCards);
+            hand.add(kickerCard);
+            return hand;
         } else {
             return new ArrayList<>(Collections.emptyList());
         }
@@ -265,7 +278,7 @@ public class HandIdentifierService {
                     && cardByRankMap.containsKey(i - 2)
                     && cardByRankMap.containsKey(i - 3)
                     && cardByRankMap.containsKey(i - 4)) {
-                System.out.println();
+
                 int finalRank = i;
                 return cardByRankMap.
                         entrySet()

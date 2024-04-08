@@ -19,7 +19,7 @@ import static com.synacy.poker.model.card.CardRank.*;
 import static com.synacy.poker.model.card.CardSuit.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
+import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class HandIdentifierServiceTest {
@@ -617,5 +617,65 @@ public class HandIdentifierServiceTest {
 
 		assertTrue(identifiedHand instanceof HighCard);
 		assertEquals("K,Q,10,9,8", identifiedHand.toString());
+	}
+
+
+	@Test
+	public void identifyHand_threeOfAKind_twoPlayers() {
+		List<Card> playerTwoCards = Arrays.asList(
+				new Card.Builder()
+						.rank(SEVEN)
+						.suit(SPADES)
+						.build(),
+				new Card.Builder()
+						.rank(SIX)
+						.suit(DIAMONDS)
+						.build()
+		);
+
+		List<Card> playerThreeCards = Arrays.asList(
+				new Card.Builder()
+						.rank(SEVEN)
+						.suit(DIAMONDS)
+						.build(),
+				new Card.Builder()
+						.rank(TEN)
+						.suit(SPADES)
+						.build()
+		);
+
+		List<Card> communityCards = Arrays.asList(
+				new Card.Builder()
+						.rank(SEVEN)
+						.suit(HEARTS)
+						.build(),
+				new Card.Builder()
+						.rank(EIGHT)
+						.suit(CLUBS)
+						.build(),
+				new Card.Builder()
+						.rank(THREE)
+						.suit(DIAMONDS)
+						.build(),
+				new Card.Builder()
+						.rank(SEVEN)
+						.suit(CLUBS)
+						.build(),
+				new Card.Builder()
+						.rank(TWO)
+						.suit(CLUBS)
+						.build()
+		);
+
+		Hand playerTwoHand = handIdentifierService.identifyHand(playerTwoCards, communityCards);
+		Hand playerThreeHand = handIdentifierService.identifyHand(playerThreeCards, communityCards);
+
+		assertThat(playerTwoHand)
+				.isInstanceOf(ThreeOfAKind.class);
+		assertThat(playerThreeHand)
+				.isInstanceOf(ThreeOfAKind.class);
+
+		assertThat(playerThreeHand)
+				.isGreaterThan(playerTwoHand);
 	}
 }

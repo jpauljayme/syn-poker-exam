@@ -12,8 +12,8 @@ import java.util.Objects;
  */
 public class ThreeOfAKind implements Hand {
 
-    private List<Card> threeOfAKindCards;
-    private List<Card> otherCards;
+    private final List<Card> threeOfAKindCards;
+    private final List<Card> otherCards;
 
     public ThreeOfAKind(List<Card> threeOfAKindCards, List<Card> otherCards) {
         this.threeOfAKindCards = threeOfAKindCards;

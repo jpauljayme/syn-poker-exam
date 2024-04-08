@@ -92,19 +92,6 @@ public class GameServiceTest {
         }
     }
 
-//    @Test
-//    public void nextAction_dealCommunityCards() {
-//
-//        gameService.nextAction();
-//        assertEquals("Deal three community cards at the start", 3, gameService.getCommunityCards().size());
-//
-//        gameService.nextAction();
-//        assertEquals("Expecting four community cards", 4, gameService.getCommunityCards().size());
-//
-//        gameService.nextAction();
-//        assertEquals("Expecting 5 community cards", 5, gameService.getCommunityCards().size());
-//    }
-
     @Test
     public void test_checkIfPlayerWon(){
 
